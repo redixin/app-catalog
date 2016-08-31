@@ -25,4 +25,8 @@ import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "openstack_catalog.settings")
 
 from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
+_application = get_wsgi_application()
+
+def application(environ, start_response):
+    os.environ['LOCAL_SETTINGS_PATH'] = environ.get(LOCAL_SETTINGS_PATH, '.')
+    return _application(environ, start_response)
