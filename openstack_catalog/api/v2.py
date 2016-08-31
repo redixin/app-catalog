@@ -12,6 +12,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import json
+import random
 import requests
 import six
 
@@ -51,6 +53,22 @@ def copy_headers(requests_response, flask_response):
         if key not in HOP_BY_HOP_HEADERS:
             flask_response.headers[key] = value
 
+@api.route('/v2/db/recent')
+def recent():
+    assets = []
+    for artifact_type in ('glance_image', 'heat_template',
+                          'murano_package'):
+        url = '%s/artifacts/%s' % (settings.GLARE_URL, artifact_type)
+        url = '%s?sort=updated_at' % url
+        for asset in requests.get(url).json()[artifact_type][:5]:
+            assets.append({
+                'name': asset['name'],
+                'type': artifact_type,
+                'id': asset['id'],
+                'icon': asset['icon'] is not None,
+            })
+    random.shuffle(assets)
+    return Response(json.dumps(assets[:5]), mimetype='application/json')
 
 @api.route('/v2/<path:path>', methods=['GET', 'HEAD', 'OPTIONS', 'POST',
                                        'PUT', 'UPDATE', 'DELETE', 'PATCH'])

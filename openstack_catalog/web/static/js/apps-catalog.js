@@ -32,7 +32,9 @@
     .config(function($routeProvider) {
       $routeProvider
       .when('/', {
-        templateUrl: 'static/html/index.html'
+        templateUrl: 'static/html/index.html',
+        controllerAs: 'vm',
+        controller: 'MainPageController'
       })
       .when('/add/:type', {
         templateUrl: 'static/html/edit.html',
