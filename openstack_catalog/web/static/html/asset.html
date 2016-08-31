@@ -35,6 +35,7 @@
 <div ng-if="vm.item.release.length">{{vm.item.release.join(', ')}}</div>
 
 <h3>Author</h3>
+<div><span class="label">Launchpad:</span><a href="https://launchpad.net/~{{vm.item.owner}}">{{vm.item.owner}}</a></div>
 <div><span class="label">Contact:</span><a href="{{vm.item.provided_by.href}}">{{vm.item.provided_by.name}}</a></div>
 <div><span class="label">Company:</span>{{vm.item.provided_by.company}}</div>
 
@@ -49,5 +50,13 @@
 <div ng-repeat="(name, value) in vm.item.metadata"><span class="label">{{name}}:</span>{{value}}</div>
 
 <div ng-if="vm.item.visibility == 'private' && vm.item.status == 'active' && is_admin">
-<button ng-click="vm.approve()">Approve</button>
+<button ng-click="vm.Approve()">Approve</button>
+</div>
+
+<div ng-if="vm.item.visibility == 'public' && vm.item.status == 'active' && is_admin">
+<button ng-click="vm.Deactivate()">Deactivate</button>
+</div>
+
+<div ng-if="logged_in">
+<button ng-click="vm.Copy()">Copy</button>
 </div>
