@@ -37,6 +37,7 @@ HOP_BY_HOP_HEADERS = {
     'Upgrade',
 }
 
+
 @api.route('/v2/')
 def index_v2():
     data = "db\n"

@@ -117,7 +117,8 @@ USE_L10N = True
 USE_TZ = True
 
 # Override some values from local_settings.py if found
-_LOCAL_SETTINGS_PATH = os.environ.get("LOCAL_SETTINGS_PATH", ".")
+_LOCAL_SETTINGS_PATH = os.environ.get("LOCAL_SETTINGS_PATH",
+                                      "/etc/openstack-catalog")
 if os.path.isfile(os.path.join(_LOCAL_SETTINGS_PATH, 'local_settings.py')):
     import sys
     sys.path.insert(0, _LOCAL_SETTINGS_PATH)

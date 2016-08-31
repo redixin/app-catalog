@@ -52,7 +52,7 @@ class SessionMiddleware(object):
             if session:
                 try:
                     session = pickle.loads(six.b(session))
-                except Exception as ex:
+                except Exception:
                     session = False
                 if session:
                     roles = ','.join(session["launchpad_teams"])

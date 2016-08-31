@@ -53,7 +53,8 @@ class AssetUploader(object):
 
     def parse(self):
         if self._filename is None:
-            data = pkgutil.get_data("openstack_catalog", "web/static/assets.yaml")
+            data = pkgutil.get_data("openstack_catalog",
+                                    "web/static/assets.yaml")
         else:
             data = open(self._filename).read()
         for asset in yaml.safe_load(data)["assets"]:
@@ -73,7 +74,9 @@ class AssetUploader(object):
             try:
                 self._set_icon(asset)
             except Exception:
-                logging.exception("Unable to create icon %s (%s, %s)" % (asset["name"], asset["provided_by"], asset.get("supported_by", "None")))
+                bits = (asset["name"], asset["provided_by"],
+                        asset.get("supported_by", "None"))
+                logging.exception("Unable to create icon %s (%s, %s)", bits)
         for asset_type, asset in self._uploaded.values():
             r = self._patch(asset_type, asset["id"], [{
                 "op": "replace",
@@ -150,8 +153,8 @@ class AssetUploader(object):
                 "content-type", "application/octet-stream")
         else:
             data = json.dumps({"url": blob_url, "checksum": checksum})
-            headers["content-type"] = ("application/"
-                "vnd+openstack.glare-custom-location+json")
+            headers["content-type"] = ("application/vnd+openstack."
+                                       "glare-custom-location+json")
 
         r = requests.put(asset_url, data=data, headers=headers)
         if r.status_code == 200:
@@ -169,7 +172,6 @@ class AssetUploader(object):
         for icon_key, icon_value in asset.pop("icon", {}).items():
             data["metadata"]["icon_" + icon_key] = icon_value
         if "supported_by" not in data:
-            #remove this when glare get fixed
             data["supported_by"] = {"name": "Unknown"}
         return data
 
@@ -199,10 +201,12 @@ class AssetUploader(object):
         if metadata:
             icon_url = metadata.get("icon_url")
             if icon_url:
-                r = self._create_blob(asset_type, asset["id"], "icon", icon_url)
+                r = self._create_blob(asset_type, asset["id"],
+                                      "icon", icon_url)
                 logging.debug(repr(r))
                 if r.status_code != 200:
-                    logging.error("Unable to create icon: %s for artifact %s", icon_url, asset)
+                    logging.error("Unable to create icon: %s for artifact %s",
+                                  icon_url, asset)
 
     def _process_glance(self, asset, data):
         asset["attributes"].pop("size", None)

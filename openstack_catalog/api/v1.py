@@ -12,9 +12,9 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import json
 from flask import request
 from flask import Response
+import json
 import requests
 
 from openstack_catalog.api import api
@@ -125,8 +125,10 @@ def _blob_url(blob_type, blob_id, blob_name):
 
 
 def _process_tosca_asset(src, dst):
-    dst['service'] = {'type': 'tosca', 'template_format': src['template_format']}
-    dst['attributes'] = {'url': _blob_url('tosca_template', src['id'], 'template')}
+    dst['service'] = {'type': 'tosca',
+                      'template_format': src['template_format']}
+    dst['attributes'] = {'url': _blob_url('tosca_template', src['id'],
+                                          'template')}
 
 
 def _process_murano_asset(src, dst):
@@ -162,7 +164,8 @@ def _process_glance_asset(src, dst):
         dst['cloud_user'] = src['cloud_user']
     image = src.get('image')
     if image:
-        dst['attributes']['url'] = _blob_url('glance_image', src['id'], 'image')
+        dst['attributes']['url'] = _blob_url('glance_image',
+                                             src['id'], 'image')
         checksum = image.get('checksum')
         if checksum:
             dst['hash'] = checksum
