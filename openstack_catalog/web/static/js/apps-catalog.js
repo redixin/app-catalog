@@ -4,11 +4,13 @@
     .module('AppCatalog', ['ngRoute'])
     .filter('blobSize', function() {
       return function(bytes) {
-        if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
-        var units = ['bytes', 'K', 'M', 'G', 'T', 'P'],
-            number = Math.floor(Math.log(bytes) / Math.log(1024));
+        if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) {
+          return '-';
+        }
+        var units = ['bytes', 'K', 'M', 'G', 'T', 'P'];
+        var number = Math.floor(Math.log(bytes) / Math.log(1024));
         return (bytes / Math.pow(1024, Math.floor(number))).toFixed(2) + units[number];
-      }
+      };
     })
     .filter('assetLink', function() {
       return function(input) {
@@ -17,8 +19,8 @@
     };})
     .filter('blobLink', function() {
       return function(artifact, type, blobFieldName) {
-        return window.location.protocol + '//' + window.location.host + '/api/v2/db/artifacts/'
-          + type + '/' + artifact.id + '/' + blobFieldName;
+        return window.location.protocol + '//' + window.location.host + '/api/v2/db/artifacts/' +
+          type + '/' + artifact.id + '/' + blobFieldName;
       };
     })
     .filter('displayName', function() {

@@ -28,8 +28,14 @@ HEADERS_ANONYMOUS = {
     "connection": "close",
 }
 
-SKIP_HEADERS = {"Connection"}
-
+HOP_BY_HOP_HEADERS = {
+    'Connection',
+    'Keep-Alive',
+    'Public',
+    'Proxy-Authenticate',
+    'Transfer-Encoding',
+    'Upgrade',
+}
 
 @api.route('/v2/')
 def index_v2():
@@ -41,7 +47,7 @@ def index_v2():
 
 def copy_headers(requests_response, flask_response):
     for key, value in six.iteritems(requests_response.headers):
-        if key not in SKIP_HEADERS:
+        if key not in HOP_BY_HOP_HEADERS:
             flask_response.headers[key] = value
 
 
