@@ -9,10 +9,11 @@
     vm.type = $routeParams.type;
     vm.visibility = $routeParams.visibility;
     vm.routeParams = $routeParams;
-    var args = {visibility: $routeParams.visibility};
+    var args = {visibility: $routeParams.visibility, status: 'eq:active'};
     if ($routeParams.visibility == "my") {
       vm.action = "edit";
       args.visibility = "private";
+      delete args['status'];
       args.owner = $rootScope.auth_info.launchpad_name;
     } else {
       vm.action = "artifacts";

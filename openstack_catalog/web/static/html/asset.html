@@ -1,4 +1,7 @@
 <h2>{{vm.item.name}}</h2>
+
+<h2 style="background-color: red;" ng-if="vm.item.status == 'deactivated'">DEACTIVATED</h2>
+
 <img src="{{vm.item|blobLink:vm.type:'icon'}}" style="float:right" ng-if="vm.item.icon"></img>
 
 <div><span class=label>Last modified:</span><span class=value>{{vm.item.updated_at}}</span></div>
@@ -42,7 +45,7 @@
 <h3 ng-if="vm.item.depends">Depends on</h3>
 <p ng-if="vm.item.depends">Package may depend on image and on other packages, during import of this package to Murano following dependencies will be also downloaded and imported, but existing entries will not be overwritten.</p>
 <ul>
-    <li ng-repeat="dep in vm.item.depends"><a href="{{vm.dep | assetLink}}">{{vm.dep}}</a></li>
+    <li ng-repeat="dep in vm.item.depends"><a href="{{dep | assetLink}}">{{dep}}</a></li>
 </ul>
 
 
