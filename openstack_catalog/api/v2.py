@@ -20,6 +20,7 @@ import six
 from flask import request
 from flask import Response
 from flask import stream_with_context
+import memcache
 from openstack_catalog.api import api
 from openstack_catalog.api import cors_allow
 from openstack_catalog import settings
@@ -29,7 +30,6 @@ HEADERS_ANONYMOUS = {
     "x-identity-status": "None",
     "connection": "close",
 }
-
 HOP_BY_HOP_HEADERS = {
     'Connection',
     'Keep-Alive',
@@ -38,7 +38,10 @@ HOP_BY_HOP_HEADERS = {
     'Transfer-Encoding',
     'Upgrade',
 }
+RECENT_CACHE_KEY = '_recent_'
+RECENT_CACHE_TIME = 1200
 
+cache = memcache.Client([settings.MEMCACHED_SERVER])
 
 @api.route('/v2/')
 def index_v2():
@@ -55,20 +58,24 @@ def copy_headers(requests_response, flask_response):
 
 @api.route('/v2/db/recent')
 def recent():
-    assets = []
-    for artifact_type in ('glance_image', 'heat_template',
-                          'murano_package'):
-        url = '%s/artifacts/%s' % (settings.GLARE_URL, artifact_type)
-        url = '%s?sort=updated_at' % url
-        for asset in requests.get(url).json()[artifact_type][:5]:
-            assets.append({
-                'name': asset['name'],
-                'type': artifact_type,
-                'id': asset['id'],
-                'icon': asset['icon'] is not None,
-            })
-    random.shuffle(assets)
-    return Response(json.dumps(assets[:5]), mimetype='application/json')
+    response = cache.get(RECENT_CACHE_KEY)
+    if not response:
+        assets = []
+        for artifact_type in ('glance_image', 'heat_template',
+                              'murano_package'):
+            url = '%s/artifacts/%s' % (settings.GLARE_URL, artifact_type)
+            url = '%s?sort=updated_at' % url
+            for asset in requests.get(url).json()[artifact_type][:5]:
+                assets.append({
+                    'name': asset['name'],
+                    'type': artifact_type,
+                    'id': asset['id'],
+                    'icon': asset['icon'] is not None,
+                })
+        random.shuffle(assets)
+        response = json.dumps(assets[:5])
+        cache.set(RECENT_CACHE_KEY, response, time=RECENT_CACHE_TIME)
+    return Response(response, mimetype='application/json')
 
 @api.route('/v2/<path:path>', methods=['GET', 'HEAD', 'OPTIONS', 'POST',
                                        'PUT', 'UPDATE', 'DELETE', 'PATCH'])

@@ -35,7 +35,7 @@ class MemcachedStore(OpenIDStore):
                  time=30):
         self.time = 30
         self.prefix = prefix
-        self.mc = memcache.Client([server], debug=1)
+        self.mc = memcache.Client([server])
 
     def _get_key(self, server_url, handle):
         return self.prefix + server_url + handle
