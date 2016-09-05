@@ -13,9 +13,8 @@
       };
     })
     .filter('assetLink', function() {
-      return function(input) {
-      var bits = input.split('/');
-      return '#/assets/' + bits[2] + '/' + bits[3];
+      return function(data) {
+      return '#/artifacts/' + data.type + '/' + data.id;
     };})
     .filter('blobLink', function() {
       return function(artifact, type, blobFieldName) {
@@ -60,6 +59,9 @@
         templateUrl: 'static/html/edit.html',
         controllerAs: 'vm',
         controller: 'EditAssetController'
+      })
+      .otherwise({
+        template: '<h1>404</h1>'
       });
     })
     .run(function($rootScope, $http) {

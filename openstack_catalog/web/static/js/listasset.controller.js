@@ -45,7 +45,6 @@
     });
   }
   function getUrlParams(url) {
-    // Parse URL params into dictionary
     var params = {};
     var pairs = url.split("?")[1].split("&");
     for (var i = 0; i < pairs.length; i++) {

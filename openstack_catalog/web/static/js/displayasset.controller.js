@@ -1,19 +1,45 @@
 (function() {
   'use strict';
+  var knownTypes = ['glance_image', 'tosca_template', 'heat_template', 'murano_package'];
   angular
     .module('AppCatalog')
     .controller('DisplayAssetController', DisplayAssetController);
-  DisplayAssetController.$inject = ['$http', '$routeParams', 'UrlService'];
-  function DisplayAssetController($http, $routeParams, UrlService) {
+  DisplayAssetController.$inject = ['$http', '$routeParams', 'UrlService', '$location'];
+  function DisplayAssetController($http, $routeParams, UrlService, $location) {
     var vm = this;
+    var deps = [];
+    var dependencies = [];
+    if (knownTypes.indexOf($routeParams.type) < 0) {
+      $location.url('404');
+    }
     vm.Approve = Approve;
     vm.Deactivate = Deactivate;
+    vm.dependencies = [];
     $http
       .get(UrlService.getApiUrl(['artifacts', $routeParams.type, $routeParams.id], {}))
       .then(function(response) {
         vm.item = response.data;
         vm.type = $routeParams.type;
+        deps = response.data.depends.slice();
+        loadDependencyNames();
+      }, function(response){
+        if (response.status === 404) {
+          $location.url('404');
+        }
       });
+    function loadDependencyNames() {
+      if (deps.length > 0) {
+        var dep = deps.pop();
+        var bits = dep.split('/').slice(1);
+        var url = UrlService.getApiUrl(bits, {});
+        $http.get(url).then(function(response){
+          dependencies.push({name: response.data.name, type: bits[1], id: response.data.id});
+        });
+        loadDependencyNames();
+      } else {
+        vm.dependencies = dependencies;
+      }
+    }
     function Approve() {
       Patch([{
         op: 'replace',

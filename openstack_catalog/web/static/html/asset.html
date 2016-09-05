@@ -42,10 +42,10 @@
 <div><span class="label">Contact:</span><a href="{{vm.item.provided_by.href}}">{{vm.item.provided_by.name}}</a></div>
 <div><span class="label">Company:</span>{{vm.item.provided_by.company}}</div>
 
-<h3 ng-if="vm.item.depends">Depends on</h3>
-<p ng-if="vm.item.depends">Package may depend on image and on other packages, during import of this package to Murano following dependencies will be also downloaded and imported, but existing entries will not be overwritten.</p>
+<h3 ng-if="vm.dependencies.length > 0">Depends on</h3>
+<p ng-if="vm.dependencies.length > 0">Package may depend on image and on other packages, during import of this package to Murano following dependencies will be also downloaded and imported, but existing entries will not be overwritten.</p>
 <ul>
-    <li ng-repeat="dep in vm.item.depends"><a href="{{dep | assetLink}}">{{dep}}</a></li>
+    <li ng-repeat="dep in vm.dependencies"><a href="{{dep|assetLink}}">{{dep.name}}</a></li>
 </ul>
 
 
