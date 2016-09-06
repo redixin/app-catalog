@@ -5,8 +5,15 @@
     <td><label for="{{i.name}}">{{i.name|displayName}}</label></td>
     <td ng-switch="i.widget">
 
-      <input ng-switch-when="input" type="{{i.type}}" ng-model="vm.artifact[i.name]" name="{{i.name}}"
-             ng-required="i.required"></input>
+      <span ng-if="i.type != 'file'">
+        <input ng-switch-when="input" type="{{i.type}}" ng-model="vm.artifact[i.name]" name="{{i.name}}"
+          ng-required="i.required" class="form-control"></input>
+      </span>
+
+      <span ng-if="i.type == 'file'">
+        <input ng-switch-when="input" type="{{i.type}}" ng-model="vm.artifact[i.name]" name="{{i.name}}"
+          ng-required="i.required"></input>
+      </span>
 
       <div ng-switch-when="uploaded_blob">
         {{vm.artifact[i.name].content_type}}&nbsp;{{vm.artifact[i.name].size|blobSize}}
@@ -14,36 +21,52 @@
 
       <div ng-switch-when="external_blob">
         <table>
-          <tr><td><label>Url</label></td><td><input name="{{i.name}}{{i.key}}" ng-model="vm.externalBlob[i.name]"></input></td></tr>
-          <tr><td><label>Checksum</label></td><td><input name="{{i.name}}{{i.key}}.checksum" ng-model="vm.externalBlobChecksum[i.name]"></input></td></tr>
+          <tr>
+            <td>
+              <div class="sub-label">Url</div>
+              <input name="{{i.name}}{{i.key}}" ng-model="vm.externalBlob[i.name]" class="form-control" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="sub-label">Checksum</div>
+              <input name="{{i.name}}{{i.key}}.checksum" ng-model="vm.externalBlobChecksum[i.name]" class="form-control" />
+            </td>
+          </tr>
         </table>
       </div>
 
       <textarea ng-switch-when="textarea" ng-model="vm.artifact[i.name]"
-                name="{{i.name}}" ng-required="{{i.required}}"></textarea>
+                name="{{i.name}}" ng-required="{{i.required}}" class="form-control"></textarea>
 
       <span ng-switch-when="array">
         <ul><li ng-repeat="item in vm.artifact[i.name] track by $index">
           <input ng-model="vm.artifact[i.name][$index]" type="{{i.itemType}}"
-                 name="{{i.name}}.{{$index}}">
+                 name="{{i.name}}.{{$index}}" class="form-control">
           </input>
-          <button ng-click="vm.artifact[i.name].splice($index, 1)">-</button>
+          <button ng-click="vm.artifact[i.name].splice($index, 1)" class="btn btn-link">
+            <i class="glyphicon glyphicon-minus-sign"></i>
+          </button>
         </li></ul>
-        <button ng-click="vm.addItem(i.name)">+</button>
+        <button ng-click="vm.addItem(i.name)" class="btn btn-link">
+          <i class="glyphicon glyphicon-plus-sign"></i>
+        </button>
       </span>
 
       <span ng-switch-when="dict">
 
         <table ng-if="i.itemType != 'file'">
           <tr ng-repeat="(key, val) in vm.artifact[i.name]">
-            <td>{{key}}</td>
             <td>
+              <div class="sub-label">{{key}}</div>
               <input ng-model="vm.artifact[i.name][key]" type="{{i.itemType}}"
-                     name={{i.name}}.{{key}}>
+                     name={{i.name}}.{{key}} class="form-control">
               </input>
             </td>
             <td>
-              <button ng-click="vm.delKey(i.name, key, 'artifact')" ng-if="!i.locked">-</button>
+              <button ng-click="vm.delKey(i.name, key, 'artifact')" ng-if="!i.locked" class="btn btn-link">
+                <i class="glyphicon glyphicon-minus-sign"></i>
+              </button>
             </td>
           </tr>
         </table>
@@ -61,19 +84,25 @@
               </input>
             </td>
             <td>
-              <button ng-click="vm.delKey(i.name, key, 'blobdict')" ng-if="!i.locked">-</button>
+              <button ng-click="vm.delKey(i.name, key, 'blobdict')" ng-if="!i.locked" class="btn btn-link">
+                <i class="glyphicon glyphicon-minus-sign"></i>
+              </button>
             </td>
           </tr>
         </table>
 
         <span ng-if="!i.locked && i.itemType != 'file'">
-          <input ng-model="vm.newKey[i.name]"></input>
-          <button ng-click="vm.addKey(i.name, 'artifact', 'newKey')">+</button>
+          <input ng-model="vm.newKey[i.name]" class="form-control"></input>
+          <button ng-click="vm.addKey(i.name, 'artifact', 'newKey')" class="btn btn-link">
+            <i class="glyphicon glyphicon-plus-sign"></i>
+          </button>
         </span>
 
         <span ng-if="!i.locked && i.itemType == 'file'">
-          <input ng-model="vm.newBlobDictKey[i.name]"></input>
-          <button ng-click="vm.addKey(i.name, 'blobdict', 'newBlobDictKey')">+</button>
+          <input ng-model="vm.newBlobDictKey[i.name]" class="form-control"></input>
+          <button ng-click="vm.addKey(i.name, 'blobdict', 'newBlobDictKey')" class="btn btn-link">
+            <i class="glyphicon glyphicon-plus-sign"></i>
+          </button>
         </span>
 
       </span>
@@ -83,9 +112,9 @@
 </table>
 </form>
 
-<button ng-if="artifactForm.$valid" ng-click="vm.Save(artifactForm)">Save</button>
-<button ng-if="vm.is_admin && vm.artifact.status == 'active'" ng-click="vm.approve()">Approve</button>
-<button ng-if"vm.artifact.status != 'active'" ng-click="vm.Activate()">Activate</button>
+<button ng-if="artifactForm.$valid" ng-click="vm.Save(artifactForm)" class="btn btn-default">Save</button>
+<button ng-if="vm.is_admin && vm.artifact.status == 'active'" ng-click="vm.approve()" class="btn btn-default">Approve</button>
+<button ng-if"vm.artifact.status != 'active'" ng-click="vm.Activate()" class="btn btn-default">Activate</button>
 
 
 <table id="uploads" style="width: 6in;">
@@ -95,7 +124,7 @@
 </table>
 
 <h2 ng-if="vm.status">{{vm.status}}</h2>
-<div ng-if="vm.error" class=xhr_error>
+<div ng-if="vm.error" class="xhr_error alert alert-danger">
 <p>{{vm.error.status}} {{vm.error.statusText}}</p>
 <p>{{vm.error.data.error.message}}</p>
 </div>
