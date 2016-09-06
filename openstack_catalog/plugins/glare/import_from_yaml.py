@@ -67,7 +67,7 @@ class AssetUploader(object):
             try:
                 self.upload_asset(name)
             except Exception:
-                logging.exception("Failed to create asset %s" % name)
+                logging.exception("Failed to create asset %s", name)
                 return
         for name, asset in self._assets.items():
             self._set_dependencies(asset)
@@ -84,18 +84,18 @@ class AssetUploader(object):
                 "value": "active",
             }])
             if r.status_code != 200:
-                logging.error("Failed to activate %s" % asset["id"])
+                logging.error("Failed to activate %s", asset["id"])
             r = self._patch(asset_type, asset["id"], [{
                 "op": "replace",
                 "path": "/visibility",
                 "value": "public",
             }])
             if r.status_code != 200:
-                logging.error("Failed to publish %s" % asset["id"])
+                logging.error("Failed to publish %s", asset["id"])
 
     def upload_asset(self, name):
         if name in self._uploaded:
-            logging.debug("Already uploaded %s" % name)
+            logging.debug("Already uploaded %s", name)
             return
         asset = self._assets[name]
         artifact_type = asset["service"]["type"]
@@ -105,16 +105,16 @@ class AssetUploader(object):
             try:
                 method(asset, asset_data)
             except Exception:
-                logging.exception("Error creating asset '%s'" % name)
+                logging.exception("Error creating asset '%s'", name)
 
     def _create_asset(self, artifact_type, data):
-        logging.info("Creating %s '%s'" % (artifact_type, data["name"]))
+        logging.info("Creating %s '%s'", artifact_type, data["name"])
         url = self._get_url("artifacts", artifact_type)
         r = requests.post(url, data=json.dumps(data), headers=HEADERS_AUTH)
         if r.status_code != 201:
             logging.error("")
             fmt = "Failed to create %s %s"
-            logging.error(fmt % (artifact_type, r.text))
+            logging.error(fmt, artifact_type, r.text)
             raise Exception("Failed to create '%s'" % data["name"])
         artifact = r.json()
         self._uploaded[data["name"]] = (artifact_type, artifact)
@@ -133,7 +133,7 @@ class AssetUploader(object):
             "path": "/status",
             "value": "active",
         }])
-        logging.debug('Activating asset %s' % asset_id)
+        logging.debug('Activating asset %s', asset_id)
         r = requests.patch(url, data=data, headers=HEADERS_PATCH)
         if r.status_code != 200:
             logging.error(r.text)
@@ -158,7 +158,7 @@ class AssetUploader(object):
 
         r = requests.put(asset_url, data=data, headers=headers)
         if r.status_code == 200:
-            logging.debug("Blob created %s" % r.status_code)
+            logging.debug("Blob created %s", r.status_code)
         else:
             raise Exception("Failed to craete blob %s" % r.text)
         return r
@@ -176,23 +176,25 @@ class AssetUploader(object):
         return data
 
     def _set_dependencies(self, asset):
-        logging.debug("getting deps from asset %s" % asset)
+        logging.debug("getting deps from asset %s", asset)
         depends = asset.get("depends")
-        logging.debug("got %s" % depends)
+        logging.debug("got %s", depends)
         if depends:
             deps = []
             for item in depends:
-                asset_type, asset = self._uploaded[item["name"]]
-                deps.append("/artifacts/%s/%s" % (asset_type, asset["id"]))
+                asset_type, _asset = self._uploaded[item["name"]]
+                deps.append("/artifacts/%s/%s" % (asset_type, _asset["id"]))
             patch = [{
                 "op": "replace",
-                "path": "/depends",
+                "path": "/dependencies",
                 "value": deps,
             }]
-            logging.debug("Setting deps for %s" % asset["name"])
-            asset = self._uploaded[asset["name"]][1]
+            asset_type, asset = self._uploaded[asset["name"]]
+            logging.debug("Setting deps for %s %s", asset_type, asset["name"])
             logging.debug(patch)
-            self._patch(asset_type, asset["id"], patch)
+            r = self._patch(asset_type, asset["id"], patch)
+            if r.status_code != 200:
+                raise Exception('Failed to set dependencies for %s (%s)', asset['id'], r.text)
 
     def _set_icon(self, asset):
         asset_type, asset = self._uploaded[asset["name"]]

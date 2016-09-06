@@ -3336,7 +3336,7 @@
         - name: Docker Interfaces Library
       hash: 27ba40000dc1885b830d3d370b3fb5b2
       attributes:
-        "Package URL": "http://storage.apps.openstack.org/apps/io.iron.IronWorker.zip"
+        "Package URL": "https://www.dropbox.com/s/1id7bph8760aak3/io.iron.IronWorker.zip?dl=0"
     -
       name: F5 BIG-IP VE Onboard
       tags: ['app']

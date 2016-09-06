@@ -20,7 +20,7 @@
       .then(function(response) {
         vm.item = response.data;
         vm.type = $routeParams.type;
-        deps = response.data.depends.slice();
+        deps = response.data.dependencies.slice();
         loadDependencyNames();
       }, function(response){
         if (response.status === 404) {
