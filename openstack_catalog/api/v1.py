@@ -59,10 +59,10 @@ def get_assets_from_glare():
     assets = []
     artifact_dependency_map = {}
     for artifact_type, process_asset in (
-        ('tosca_template', _process_tosca_asset),
-        ('murano_package', _process_murano_asset),
-        ('heat_template', _process_heat_asset),
-        ('glance_image', _process_glance_asset),
+        ('tosca_templates', _process_tosca_asset),
+        ('murano_packages', _process_murano_asset),
+        ('sheat_templates', _process_heat_asset),
+        ('images', _process_image_asset),
         ):
         for artifact in _generate_artifacts(artifact_type):
             key = '/artifacts/%s/%s' % (artifact_type, artifact['id'])
@@ -127,7 +127,7 @@ def _blob_url(blob_type, blob_id, blob_name):
 def _process_tosca_asset(src, dst):
     dst['service'] = {'type': 'tosca',
                       'template_format': src['template_format']}
-    dst['attributes'] = {'url': _blob_url('tosca_template', src['id'],
+    dst['attributes'] = {'url': _blob_url('tosca_templates', src['id'],
                                           'template')}
 
 
@@ -141,7 +141,7 @@ def _process_murano_asset(src, dst):
         checksum = src['package'].get('checksum')
         if checksum:
             dst['hash'] = checksum
-        package_url = _blob_url('murano_package', src['id'], 'package')
+        package_url = _blob_url('murano_packages', src['id'], 'package')
         dst['attributes'] = {'Package URL': package_url}
         _copy_key(src['metadata'], dst['attributes'], 'Source URL')
 
@@ -151,7 +151,7 @@ def _process_heat_asset(src, dst):
     dst['attributes'] = {'url': src['template']['url']}
 
 
-def _process_glance_asset(src, dst):
+def _process_image_asset(src, dst):
     dst['service'] = {
         'type': 'glance',
         'min_disk': src['min_disk'],
@@ -164,7 +164,7 @@ def _process_glance_asset(src, dst):
         dst['cloud_user'] = src['cloud_user']
     image = src.get('image')
     if image:
-        dst['attributes']['url'] = _blob_url('glance_image',
+        dst['attributes']['url'] = _blob_url('images',
                                              src['id'], 'image')
         checksum = image.get('checksum')
         if checksum:

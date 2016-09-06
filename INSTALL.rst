@@ -35,9 +35,6 @@ For example:
     filesystem_store_datadir = /tmp/blobs
     [database]
     connection = sqlite:////tmp/glare.sqlite
-    [glare]
-    custom_artifact_types_modules = openstack_catalog.plugins.glare.artifacts
-    enabled_artifact_types = glance_image,tosca_template,heat_template,murano_package
     [paste_deploy]
     flavor = session
     [oslo_policy]

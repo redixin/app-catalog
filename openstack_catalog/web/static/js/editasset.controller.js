@@ -5,7 +5,7 @@
   var orderedFields = ["name", "description", "license", "license_url", "icon",
                        "metadata", "tags", "provided_by", "supported_by", "version",
                        "depends", "release", "image"];
-  var externalBlobFields = {glance_image: ["image"]};
+  var externalBlobFields = {images: ["image"]};
   angular
     .module("AppCatalog")
     .controller("EditAssetController", EditAssetController);
@@ -215,8 +215,16 @@
       vm.artifact[field].push("");
     }
     function addKey(field, vmKey, newDictName) {
+      var newKey = vm[newDictName][field];
+      if (newKey == null || newKey == "") {
+        return;
+      }
       if (vm[vmKey][field] == null) {
         vm[vmKey][field] = {};
+      }
+      if (vm[vmKey][field].hasOwnProperty(newKey)) {
+        vm[newDictName][field] = "";
+        return;
       }
       vm[vmKey][field][vm[newDictName][field]] = "";
       vm[newDictName][field] = "";

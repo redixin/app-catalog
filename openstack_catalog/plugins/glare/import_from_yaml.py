@@ -160,7 +160,7 @@ class AssetUploader(object):
         if r.status_code == 200:
             logging.debug("Blob created %s" % r.status_code)
         else:
-            logging.error("Failed to craete blob %s" % r.text)
+            raise Exception("Failed to craete blob %s" % r.text)
         return r
 
     def _get_common_data(self, asset):
@@ -215,36 +215,36 @@ class AssetUploader(object):
                   "container_format", "image_indirect_url")
         _get_keys(asset, data, "cloud_user")
         image_url = asset["attributes"].pop("url", None)
-        image = self._create_asset("glance_image", data)
+        image = self._create_asset("images", data)
         if image_url is None:
             return
         checksum = asset.get("hash", "")
         if len(checksum) != 32:
             checksum = None
-        self._create_blob("glance_image", image["id"],
+        self._create_blob("images", image["id"],
                           "image", image_url, True, checksum)
 
     def _process_tosca(self, asset, data):
         url = asset["attributes"].pop("url")
         data["template_format"] = asset["service"]["template_format"]
-        template = self._create_asset("tosca_template", data)
-        self._create_blob("tosca_template", template["id"], "template", url)
+        template = self._create_asset("tosca_templates", data)
+        self._create_blob("tosca_templates", template["id"], "template", url)
 
     def _process_heat(self, asset, data):
         url = asset["attributes"].pop("url")
         _get_keys(asset, data, "environment", "template_version")
-        template = self._create_asset("heat_template", data)
-        self._create_blob("heat_template", template["id"], "template", url)
+        template = self._create_asset("heat_templates", data)
+        self._create_blob("heat_templates", template["id"], "template", url)
 
     def _process_murano(self, asset, data):
         url = asset["attributes"].pop("Package URL")
         data["package_name"] = asset["service"]["package_name"]
-        package = self._create_asset("murano_package", data)
-        self._create_blob("murano_package", package["id"], "package", url)
+        package = self._create_asset("murano_packages", data)
+        self._create_blob("murano_packages", package["id"], "package", url)
 
     def _process_bundle(self, asset, data):
         data["package_name"] = asset["service"]["murano_package_name"]
-        self._create_asset("murano_package", data)
+        self._create_asset("murano_packages", data)
 
 
 def main():

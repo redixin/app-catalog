@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  var knownTypes = ['glance_image', 'tosca_template', 'heat_template', 'murano_package'];
+  var knownTypes = ['images', 'tosca_templates', 'heat_templates', 'murano_packages'];
   angular
     .module('AppCatalog')
     .controller('DisplayAssetController', DisplayAssetController);

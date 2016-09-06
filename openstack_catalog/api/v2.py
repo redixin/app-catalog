@@ -61,8 +61,8 @@ def recent():
     response = cache.get(RECENT_CACHE_KEY)
     if not response:
         assets = []
-        for artifact_type in ('glance_image', 'heat_template',
-                              'murano_package'):
+        for artifact_type in ('images', 'heat_templates',
+                              'murano_packages'):
             url = '%s/artifacts/%s' % (settings.GLARE_URL, artifact_type)
             url = '%s?sort=updated_at' % url
             for asset in requests.get(url).json()[artifact_type][:5]:
