@@ -159,6 +159,9 @@
       var itemType = fieldTypes[1];
       switch (fieldType) {
         case 'string':
+          if (field.hasOwnProperty('enum')) {
+            return {widget: 'select', enum: field.enum};
+          }
           if (field.maxLength > 255) {
             return {widget: 'textarea'}
           } else {

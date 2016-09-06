@@ -5,15 +5,10 @@
     <td><label for="{{i.name}}">{{i.name|displayName}}</label></td>
     <td ng-switch="i.widget">
 
-      <span ng-if="i.type != 'file'">
-        <input ng-switch-when="input" type="{{i.type}}" ng-model="vm.artifact[i.name]" name="{{i.name}}"
-          ng-required="i.required" class="form-control"></input>
-      </span>
+      <select ng-switch-when="select" name="{{i.name}}" ng-model="vm.artifact[i.name]" ng-options="o as o for o in i.enum"></select>
 
-      <span ng-if="i.type == 'file'">
-        <input ng-switch-when="input" type="{{i.type}}" ng-model="vm.artifact[i.name]" name="{{i.name}}"
-          ng-required="i.required"></input>
-      </span>
+      <input ng-switch-when="input" type="{{i.type}}" ng-model="vm.artifact[i.name]" name="{{i.name}}"
+        ng-required="i.required" ng-class="i.type == 'file' || 'form-control'"></input>
 
       <div ng-switch-when="uploaded_blob">
         {{vm.artifact[i.name].content_type}}&nbsp;{{vm.artifact[i.name].size|blobSize}}
