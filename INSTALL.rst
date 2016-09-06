@@ -8,17 +8,35 @@ Install dependencies:
 
     sudo apt-get install memcached python-dev libpq-dev libffi-dev python-pip python-dev libpq-dev
     sudo pip install --upgrade pip tox
+    # create and activate venv
+    virtualenv appcatalog --p python2.7
+    cd appcatalog
+    . bin/activate
 ..
 
 Running GLARE localy
 --------------------
 
-To test this plugin locally you would need to clone latest glare source code:
+To test this plugin locally you need to install glare either via pip or git:
+
+NOTE: run this commands with venv activated (`. appcatalog/bin/activate`)
 
 .. code-block:: console
 
     git clone git://git.openstack.org/openstack/glare
-    cd glare
+    pip install -e glare
+    # OR
+    pip install glare_dev
+..
+
+Install app-catalog in the same way:
+
+.. code-block:: console
+
+    git clone git://git.openstack.org/openstack/app-catalog
+    pip install -e app-catalog
+    # OR
+    pip install openstack_app_catalog
 ..
 
 Create ``etc/glare.conf``, to specify where glare would actually
@@ -67,32 +85,24 @@ Run database migrations:
 
 .. code-block:: console
 
-    tox -evenv -- glare-db-manage --config-file etc/glare.conf upgrade
+    glare-db-manage --config-file etc/glare.conf upgrade
 ..
 
 Run glare
 
 .. code-block:: console
 
-    .tox/venv/bin/glare-api --config-file ./etc/glare.conf
+    glare-api --config-file etc/glare.conf
 ..
 
-At this point glare service should be running and should contain all the
-Artifact Types defined in this plugin.
+At this point glare service should be running.
 
-
-Install and run app catalog
----------------
+Open another console, activate virtualenv and upload artifacts to Glare
 
 .. code-block:: console
 
-    pip install openstack_app_catalog
-..
-
-Upload artifacts to Glare
-
-.. code-block:: console
-
+    cd appcatalog
+    . bin/activate
     app-catalog-import-assets
 ..
 
@@ -112,4 +122,9 @@ Run app catalog
     app-catalog-manage runserver 0.0.0.0:8000
 ..
 
-At this point app catalog should be available by this url: http://localhost:8000/
+Make sure you have localhost.localdomain in /etc/hosts::
+
+    127.0.0.1       localhost localhost.localdomain
+..
+
+At this point app catalog should be available by this url: http://localhost.localdomain:8000/
