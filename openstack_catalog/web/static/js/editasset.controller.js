@@ -141,6 +141,7 @@
         if (field_name in schemas[vm.type].properties) {
           var field = getFieldWidget(field_name, schemas[vm.type].properties[field_name]);
           field.name = field_name;
+          field.description = schemas[vm.type].properties[field_name].description;
           formFields.push(field);
         }
       }

@@ -25,7 +25,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 HEADERS_AUTH = {
     "x-identity-status": "Confirmed",
-    "x-project-id": "app-catalog",
+    "x-project-id": "app-catalog-core",
     "x-roles": "app-catalog-core",
     "content-type": "application/json",
 }

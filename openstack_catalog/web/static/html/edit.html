@@ -2,7 +2,7 @@
 <form name="artifactForm">
 <table>
   <tr ng-repeat="i in vm.formFields">
-    <td><label for="{{i.name}}">{{i.name|displayName}}</label></td>
+    <td><label for="{{i.name}}">{{i.name|displayName}}</label><p style="font-size: 8pt;">{{i.description}}</p></td>
     <td ng-switch="i.widget">
 
       <select ng-switch-when="select" name="{{i.name}}" ng-model="vm.artifact[i.name]" ng-options="o as o for o in i.enum"></select>
