@@ -252,7 +252,23 @@ div.xhr_error {color: red;}
     font-weight: 400;
 }
 :focus {
-  outline:none !important; // This option removes the blue border around the buttons in chrome and safari
+    outline:none !important; // This option removes the blue border around the buttons in chrome and safari
+}
+.btn {
+    border-radius: 4px;
+}
+.artifact-manage-buttons {
+    margin-bottom: 10px;
+}
+.artifact-list-nav {
+    float: right;
+}
+.btn-info {
+    background-color: #3597da;
+    border-color: #318DCC;
+}
+.btn-info:hover {
+    background-color: #3BA5ED;
 }
 
 /* FORMS */
@@ -297,6 +313,7 @@ form[name=artifactForm] .sub-label:first-letter {text-transform: uppercase}
 form[name=artifactForm] .dict  {padding-bottom: 5px;}
 
 /* ARTIFACT */
+
 .artifact {
     position: relative;
 }
