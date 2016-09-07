@@ -19,8 +19,10 @@
       vm.action = "artifacts";
       if (vm.visibility == "private") {
         args.visibility = "private";
-        vm.action = "private";
         args.status = "eq:active";
+        vm.action = "private";
+      } else {
+        args.version = "latest";
       }
     }
     args.sort = $location.search().sort;

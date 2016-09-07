@@ -47,6 +47,7 @@ For example:
 .. code-block:: ini
 
     [DEFAULT]
+    default_api_limit = 100
     allow_anonymous_access = true
     [glance_store]
     default_store = file

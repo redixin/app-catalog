@@ -64,7 +64,7 @@ def recent():
         for artifact_type in ('images', 'heat_templates',
                               'murano_packages'):
             url = '%s/artifacts/%s' % (settings.GLARE_URL, artifact_type)
-            url = '%s?sort=updated_at' % url
+            url = '%s?sort=updated_at&version=latest' % url
             for asset in requests.get(url).json()[artifact_type][:5]:
                 assets.append({
                     'name': asset['name'],
