@@ -1,13 +1,15 @@
 <h2>{{vm.assetDetails.title}}</h2>
 
-<p ng-if="logged_in">
-  [<a href="#/add/{{vm.type}}">Propose new</a>]
-  [<a href="#/list/my/{{vm.type}}/">My artifacts</a>]
-  [<a ng-if="is_admin" href="#/list/private/{{vm.type}}/">Drafts</a>]
-</p>
+<div ng-if="logged_in" class="btn-group artifact-manage-buttons">
+  <a href="#/add/{{vm.type}}" class="btn btn-default">Propose new</a>
+  <a href="#/list/my/{{vm.type}}/" class="btn btn-default">My artifacts</a>
+  <a ng-if="is_admin" href="#/list/private/{{vm.type}}/" class="btn btn-info">Drafts</a>
+</div>
 
-<a ng-if="vm.first" href="{{vm.first}}">First page</a>
-<a ng-if="vm.next" href="{{vm.next}}">Next page &rarr;</a>
+<div class="artifact-list-nav">
+  <a ng-if="vm.first" href="{{vm.first}}">First page</a>
+  <a ng-if="vm.next" href="{{vm.next}}">Next page &rarr;</a>
+</div>
 
 <table class=assets>
   <thead>
