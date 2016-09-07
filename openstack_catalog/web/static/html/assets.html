@@ -2,8 +2,10 @@
 
 <div ng-if="logged_in" class="btn-group artifact-manage-buttons">
   <a href="#/add/{{vm.type}}" class="btn btn-default">Propose new</a>
-  <a href="#/list/my/{{vm.type}}/" class="btn btn-default">My artifacts</a>
-  <a ng-if="is_admin" href="#/list/private/{{vm.type}}/" class="btn btn-info">Drafts</a>
+  <a href="#/list/my/{{vm.type}}/" class="btn btn-default"
+     ng-class="vm.routeParams.visibility == 'my' ? 'btn-info' : ''">My artifacts</a>
+  <a ng-if="is_admin" href="#/list/private/{{vm.type}}/" class="btn btn-default"
+     ng-class="vm.routeParams.visibility == 'private' ? 'btn-info' : ''">Drafts</a>
 </div>
 
 <div class="artifact-list-nav">
