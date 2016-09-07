@@ -12,7 +12,20 @@
         ng-required="i.required" ng-class="i.type == 'file' || 'form-control'"></input>
 
       <div ng-switch-when="uploaded_blob">
-        {{vm.artifact[i.name].content_type}}&nbsp;{{vm.artifact[i.name].size|blobSize}}
+
+        <div class="sub-label">checksum</div>
+        <div>{{vm.artifact[i.name].checksum}}</div>
+
+        <div ng-if="vm.artifact[i.name].external">
+          <div class="sub-label">url</div>
+          <div>{{vm.artifact[i.name].url}}</div>
+        </div>
+        <span ng-if="!vm.artifact[i.name].external">
+          <div class="sub-label">Details</div>
+          <div>
+            {{vm.artifact[i.name].content_type}}&nbsp;{{vm.artifact[i.name].size|blobSize}}
+          </div>
+        </span>
       </div>
 
       <div ng-switch-when="external_blob" class="row">
