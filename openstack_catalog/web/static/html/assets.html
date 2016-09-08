@@ -16,10 +16,11 @@
 <table class=assets>
   <thead>
     <tr>
-     <td><a>Name</a></td>
+     <td width="20%"><a>Name</a></td>
      <td><a>Description</a></td>
-     <td ng-if="vm.type != 'glance_image'"><a>Release</a></td>
-     <td ng-if="vm.type != 'heat_template'"><a>Format</a></td>
+     <td width="15%" ng-if="vm.type != 'glance_image'"><a>Release</a></td>
+     <!--<td ng-if="vm.type != 'heat_template'"><a>Format</a></td>-->
+     <td ng-if="vm.type == 'glance_image' || vm.type == 'tosca_template'"><a>Format</a></td>
      <td ng-if="vm.type == 'glance_image'"><a>License</a></td>
     </tr>
   </thead>

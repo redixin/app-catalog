@@ -312,6 +312,10 @@ form[name=artifactForm] .sub-label {
 form[name=artifactForm] .sub-label:first-letter {text-transform: uppercase}
 form[name=artifactForm] .dict  {padding-bottom: 5px;}
 
+#uploads {margin: 40px 0 20px;}
+
+.progress-name:first-letter {text-transform: uppercase}
+
 /* ARTIFACT */
 
 .artifact {

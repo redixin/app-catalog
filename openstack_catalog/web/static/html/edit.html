@@ -119,12 +119,20 @@
 <button ng-if="vm.is_admin && vm.artifact.status == 'active'" ng-click="vm.approve()" class="btn btn-default">Approve</button>
 <button ng-if"vm.artifact.status != 'active'" ng-click="vm.Activate()" class="btn btn-default">Activate</button>
 
-<table id="uploads" style="width: 6in;">
-<tr ng-repeat="upload in vm.uploading">
-  <tr ng-repeat="upload in vm.uploading">
-    <td>{{upload.name}}</td><td><div style="width: {{upload.progress}}%; background-color: green;">{{upload.progress}}%</td><td>{{upload.error}}</div></td>
-  </tr>
-</table>
+<div id="uploads">
+  <div ng-repeat="upload in vm.uploading" class="row">
+    <div class="progress-name col-xs-2">{{upload.name}}</div>
+    <div class="col-xs-4">
+      <div class="progress">
+        <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+        aria-valuenow="{{upload.progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{upload.progress}}%">
+          {{upload.progress}}% Complete
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-6">{{upload.error}}</div>
+  </div>
+</div>
 
 <h2 ng-if="vm.status">{{vm.status}}</h2>
 <div ng-if="vm.error" class="xhr_error alert alert-danger">
