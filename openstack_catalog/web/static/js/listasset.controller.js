@@ -14,7 +14,7 @@
       vm.action = "edit";
       args.visibility = "private";
       delete args['status'];
-      args.owner = $rootScope.auth_info.launchpad_name;
+      args.owner = $rootScope.auth_info.nickname;
     } else {
       vm.action = "artifacts";
       if (vm.visibility == "private") {

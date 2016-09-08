@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  var openstackReleases = ["Grizzly", "Havana", "Mitaka", "Newton"];
+  var openstackReleases = ["Icehouse", "Juno", "Kilo", "Liberty", "Mitaka", "Newton", "Ocata", "Pike", "Queens"];
   var hiddenFields = ["status", "providedBy", "visibility"];
   var orderedFields = ["name", "description", "license", "license_url", "icon",
                        "metadata", "tags", "provided_by", "supported_by", "version",
