@@ -61,7 +61,7 @@ def get_assets_from_glare():
     for artifact_type, process_asset in (
         ('tosca_templates', _process_tosca_asset),
         ('murano_packages', _process_murano_asset),
-        ('sheat_templates', _process_heat_asset),
+        ('heat_templates', _process_heat_asset),
         ('images', _process_image_asset),
         ):
         for artifact in _generate_artifacts(artifact_type):
@@ -70,18 +70,17 @@ def get_assets_from_glare():
             asset = {}
             _copy_keys(artifact, asset, ('name', 'provided_by', 'supported_by',
                                          'tags', 'description', 'license',
-                                         'license_url', 'depends'))
+                                         'license_url', 'dependencies'))
             _add_icon(artifact, asset, artifact_type)
             process_asset(artifact, asset)
             assets.append(asset)
     for asset in assets:
         deps = []
-        for dependency in asset.get('depends', []):
+        for dependency in asset.get('dependencies', []):
             deps.append({'name': artifact_dependency_map[dependency]})
         if deps:
             asset['depends'] = deps
-        else:
-            del asset['depends']
+        asset.pop('dependencies', None)
     return json.dumps({"assets": assets})
 
 
@@ -134,7 +133,7 @@ def _process_tosca_asset(src, dst):
 def _process_murano_asset(src, dst):
     package_format = 'package' if src['package'] else 'bundle'
     dst['service'] = {'type': 'murano', 'format': package_format,
-                      'package_name': src['package_name']}
+                      'package_name': src['display_name']}
     if src['package'] is None:
         dst['service']['type'] = 'bundle'
     else:

@@ -76,7 +76,7 @@ class AssetUploader(object):
             except Exception:
                 bits = (asset["name"], asset["provided_by"],
                         asset.get("supported_by", "None"))
-                logging.exception("Unable to create icon %s (%s, %s)", bits)
+                logging.exception("Unable to create icon %s", bits)
         for asset_type, asset in self._uploaded.values():
             r = self._patch(asset_type, asset["id"], [{
                 "op": "replace",
@@ -84,7 +84,7 @@ class AssetUploader(object):
                 "value": "active",
             }])
             if r.status_code != 200:
-                logging.error("Failed to activate %s", asset["id"])
+                logging.error("Failed to activate %s (%s)", asset["id"], r.text)
             r = self._patch(asset_type, asset["id"], [{
                 "op": "replace",
                 "path": "/visibility",
@@ -176,9 +176,9 @@ class AssetUploader(object):
         return data
 
     def _set_dependencies(self, asset):
-        logging.debug("getting deps from asset %s", asset)
+        logging.debug("getting deps from asset " + str(asset))
         depends = asset.get("depends")
-        logging.debug("got %s", depends)
+        logging.debug("got " + str(depends))
         if depends:
             deps = []
             for item in depends:
@@ -240,12 +240,14 @@ class AssetUploader(object):
 
     def _process_murano(self, asset, data):
         url = asset["attributes"].pop("Package URL")
-        data["package_name"] = asset["service"]["package_name"]
+        data["display_name"] = asset["service"]["package_name"]
+        data["type"] = "Application"
         package = self._create_asset("murano_packages", data)
         self._create_blob("murano_packages", package["id"], "package", url)
 
     def _process_bundle(self, asset, data):
-        data["package_name"] = asset["service"]["murano_package_name"]
+        data["display_name"] = asset["service"]["murano_package_name"]
+        data["type"] = "Application"
         self._create_asset("murano_packages", data)
 
 
