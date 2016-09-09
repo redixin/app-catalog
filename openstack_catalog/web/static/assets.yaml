@@ -241,6 +241,48 @@
       attributes:
         url: https://cloud-images.ubuntu.com/releases/14.04/14.04.4/ubuntu-14.04-server-cloudimg-amd64-disk1.img
     -
+      name: Ubuntu Utopic 14
+      tags: ['app']
+      provided_by:
+        name: Canonical
+        href: http://ubuntu.com
+        company: Canonical
+      description: Base Ubuntu 14.10 with cloud_init
+      service:
+        type: glance
+        disk_format: qcow2
+        container_format: bare
+      icon:
+        url: http://design.ubuntu.com/wp-content/uploads/ubuntu-logo32.png
+        top: 0
+        left: 6
+        height: 110
+      license: Multi-licensed OpenSource
+      cloud_user: ubuntu
+      attributes:
+        url: http://uec-images.ubuntu.com/utopic/current/utopic-server-cloudimg-amd64-disk1.img
+    -
+      name: Ubuntu Vivid 15
+      tags: ['app']
+      provided_by:
+        name: Canonical
+        href: http://ubuntu.com
+        company: Canonical
+      description: Base Ubuntu 15.04 with cloud_init
+      service:
+        type: glance
+        disk_format: qcow2
+        container_format: bare
+      icon:
+        url: http://design.ubuntu.com/wp-content/uploads/ubuntu-logo32.png
+        top: 0
+        left: 6
+        height: 110
+      license: Multi-licensed OpenSource
+      cloud_user: ubuntu
+      attributes:
+        url: http://uec-images.ubuntu.com/vivid/current/vivid-server-cloudimg-amd64-disk1.img
+    -
       name: CentOS 6
       tags: ['app']
       provided_by:
@@ -1347,7 +1389,7 @@
       attributes:
         "Source URL": "https://github.com/openstack/murano-apps"
         "Package URL": "http://storage.apps.openstack.org/apps/com.mirantis.docker.Interfaces.zip"
-        Documentation: "https://github.com/openstack/murano-apps/blob/master/Docker/Kubernetes/README.rst"
+        Documentation: "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Kubernetes/README.rst"
     -
       name: Apache HTTP Server
       tags: ['app']
@@ -1790,6 +1832,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/DockerStandaloneHost/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Interfaces Library
@@ -1799,7 +1846,7 @@
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.mirantis.docker.DockerStandaloneHost.zip"
         "Source URL": "https://github.com/openstack/murano-apps"
-        Documentation: "https://github.com/openstack/murano-apps/blob/master/Docker/Kubernetes/README.rst"
+        Documentation: "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Kubernetes/README.rst"
     -
       name: Kubernetes Cluster
       provided_by:
@@ -1830,14 +1877,26 @@
         Changes:
         July 2016 - The package name was changed. You can still access the application with
         the old name by the link. But now it is preferable to use the new application.
+
+        This application uses image with follow components:
+            * etcd v3.0.4;
+            * kubernetes v1.3.0;
+            * flannel v0.5.5;
+            * Go v1.6.2;
+            * confd v0.7.1;
+            * docker v1.11.2.
+
       service:
         type: murano
         format: package
         package_name: com.mirantis.docker.kubernetes.KubernetesCluster
       release:
-        - Kilo
-        - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/Kubernetes/KubernetesCluster/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Interfaces Library
@@ -1847,7 +1906,7 @@
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.mirantis.docker.kubernetes.KubernetesCluster.zip"
         "Source URL": "https://github.com/openstack/murano-apps"
-        Documentation: "https://github.com/openstack/murano-apps/blob/master/Docker/Kubernetes/README.rst"
+        Documentation: "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Kubernetes/README.rst"
     -
       name: Kubernetes Pod
       provided_by:
@@ -1879,14 +1938,26 @@
         Changes:
         July 2016 - The package name was changed. You can still access the application with
         the old name by the link. But now it is preferable to use the new application.
+
+        Depended application - "Kubernetes Cluster" uses image with follow
+        components:
+            * etcd v3.0.4;
+            * kubernetes v1.3.0;
+            * flannel v0.5.5;
+            * Go v1.6.2;
+            * confd v0.7.1;
+            * docker v1.11.2.
       service:
         type: murano
         format: package
         package_name: com.mirantis.docker.kubernetes.KubernetesPod
       release:
-        - Kilo
-        - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/Kubernetes/KubernetesPod/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Interfaces Library
@@ -1895,7 +1966,7 @@
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.mirantis.docker.kubernetes.KubernetesPod.zip"
         "Source URL": "https://github.com/openstack/murano-apps"
-        Documentation: "https://github.com/openstack/murano-apps/blob/master/Docker/Kubernetes/README.rst"
+        Documentation: "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Kubernetes/README.rst"
     -
       name: Docker Container
       tags: ['app']
@@ -1927,6 +1998,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/Applications/DockerApp/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Standalone Host
@@ -1935,7 +2011,7 @@
       hash: 7eeb7fb26a0eb98fcd2d9f36c334495f
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.example.docker.DockerApp.zip"
-        "Source URL": "https://github.com/openstack/murano-apps/tree/master/Docker/Applications/DockerApp/package"
+        "Source URL": "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Applications/DockerApp/package"
     -
       name: Docker Crate
       tags: ['app']
@@ -1964,6 +2040,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/Applications/Crate/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Standalone Host
@@ -1972,7 +2053,7 @@
       hash: 8206b643fe62906a5ae923293fba24d9
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.example.docker.DockerCrate.zip"
-        "Source URL": "https://github.com/openstack/murano-apps/tree/master/Docker/Applications/Crate/package"
+        "Source URL": "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Applications/Crate/package"
     -
       name: Docker GlassFish
       tags: ['app']
@@ -2012,6 +2093,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/Applications/GlassFish/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Standalone Host
@@ -2020,7 +2106,7 @@
       hash: 1c5bf911605d10a9f38e2b6d14d942f5
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.example.docker.DockerGlassFish.zip"
-        "Source URL": "https://github.com/openstack/murano-apps/tree/master/Docker/Applications/GlassFish/package"
+        "Source URL": "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Applications/GlassFish/package"
     -
       name: Docker Grafana
       tags: ['app']
@@ -2059,6 +2145,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/Applications/Grafana/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Standalone Host
@@ -2068,7 +2159,7 @@
       hash: 73eb553f2ee025111866664c051b74e2
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.example.docker.DockerGrafana.zip"
-        "Source URL": "https://github.com/openstack/murano-apps/tree/master/Docker/Applications/Grafana/package"
+        "Source URL": "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Applications/Grafana/package"
     -
       name: Docker GuestBook
       tags: ['app']
@@ -2095,6 +2186,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/Applications/GuestBook/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Kubernetes Cluster
@@ -2104,7 +2200,7 @@
       hash: 873b741bb7be325ba6ee35e669ec9b32
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.example.docker.GuestBook.zip"
-        "Source URL": "https://github.com/openstack/murano-apps/tree/master/Docker/Applications/GuestBook/package"
+        "Source URL": "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Applications/GuestBook/package"
     -
       name: Docker HTTPd
       tags: ['app']
@@ -2133,6 +2229,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/Applications/HTTPdServer/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Standalone Host
@@ -2141,7 +2242,7 @@
       hash: 97c0e62b98b21e525a9aad9b4079e83e
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.example.docker.DockerHTTPd.zip"
-        "Source URL": "https://github.com/openstack/murano-apps/tree/master/Docker/Applications/HTTPdServer/package"
+        "Source URL": "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Applications/HTTPdServer/package"
     -
       name: Docker HTTPd Site
       tags: ['app']
@@ -2175,6 +2276,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/Applications/HTTPdSite/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Standalone Host
@@ -2183,7 +2289,7 @@
       hash: c7098e7a7c77c9ce5c0e0f0df35b4575
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.example.docker.DockerHTTPdSite.zip"
-        "Source URL": "https://github.com/openstack/murano-apps/tree/master/Docker/Applications/HTTPdSite/package"
+        "Source URL": "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Applications/HTTPdSite/package"
     -
       name: Docker InfluxDB
       tags: ['app']
@@ -2214,6 +2320,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/Applications/InfluxDB/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Standalone Host
@@ -2222,7 +2333,7 @@
       hash: 3981adf1a484df76d0991ed5d90f4bd4
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.example.docker.DockerInfluxDB.zip"
-        "Source URL": "https://github.com/openstack/murano-apps/tree/master/Docker/Applications/InfluxDB/package"
+        "Source URL": "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Applications/InfluxDB/package"
     -
       name: Docker Jenkins
       tags: ['app']
@@ -2262,6 +2373,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/Applications/Jenkins/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Standalone Host
@@ -2270,7 +2386,7 @@
       hash: 5635241b7e0373777fa785c6bd737800
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.example.docker.DockerJenkins.zip"
-        "Source URL": "https://github.com/openstack/murano-apps/tree/master/Docker/Applications/Jenkins/package"
+        "Source URL": "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Applications/Jenkins/package"
     -
       name: Docker MariaDB
       tags: ['app']
@@ -2308,6 +2424,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/Applications/MariaDB/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Standalone Host
@@ -2316,7 +2437,7 @@
       hash: 5721494a219313c7cea4acf5599eb080
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.example.docker.DockerMariaDB.zip"
-        "Source URL": "https://github.com/openstack/murano-apps/tree/master/Docker/Applications/MariaDB/package"
+        "Source URL": "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Applications/MariaDB/package"
     -
       name: Docker MongoDB
       tags: ['app']
@@ -2357,6 +2478,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/Applications/MongoDB/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Standalone Host
@@ -2365,7 +2491,7 @@
       hash: 153863e2a09daebf1b3ecc39d61e8cf0
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.example.docker.DockerMongoDB.zip"
-        "Source URL": "https://github.com/openstack/murano-apps/tree/master/Docker/Applications/MongoDB/package"
+        "Source URL": "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Applications/MongoDB/package"
     -
       name: Docker MySQL
       tags: ['app']
@@ -2396,6 +2522,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/Applications/MySQL/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Standalone Host
@@ -2404,7 +2535,7 @@
       hash: 3a20ad21ad812995a9bbad51e9705e52
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.example.docker.DockerMySQL.zip"
-        "Source URL": "https://github.com/openstack/murano-apps/tree/master/Docker/Applications/MySQL/package"
+        "Source URL": "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Applications/MySQL/package"
     -
       name: Docker Nginx
       tags: ['app']
@@ -2437,6 +2568,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/Applications/Nginx/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Standalone Host
@@ -2445,7 +2581,7 @@
       hash: 9c18fc83ac35a206f5eb1620b527d742
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.example.docker.DockerNginx.zip"
-        "Source URL": "https://github.com/openstack/murano-apps/tree/master/Docker/Applications/Nginx/package"
+        "Source URL": "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Applications/Nginx/package"
     -
       name: Docker Nginx Site
       tags: ['app']
@@ -2481,6 +2617,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/Applications/NginxSite/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Standalone Host
@@ -2489,7 +2630,7 @@
       hash: 0acbbab1b8d98416c734a4e713e25cb2
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.example.docker.DockerNginxSite.zip"
-        "Source URL": "https://github.com/openstack/murano-apps/tree/master/Docker/Applications/NginxSite/package"
+        "Source URL": "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Applications/NginxSite/package"
     -
       name: Docker PostgreSQL
       tags: ['app']
@@ -2540,6 +2681,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/Applications/PostgreSQL/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Standalone Host
@@ -2548,7 +2694,7 @@
       hash: 3bba519011243cdfc705c76af6dc72e2
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.example.docker.DockerPostgreSQL.zip"
-        "Source URL": "https://github.com/openstack/murano-apps/tree/master/Docker/Applications/PostgreSQL/package"
+        "Source URL": "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Applications/PostgreSQL/package"
     -
       name: Docker Redis
       tags: ['app']
@@ -2580,6 +2726,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/Applications/Redis/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Standalone Host
@@ -2588,7 +2739,7 @@
       hash: 7902cbabd16f08daa50147caf56366d9
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.example.docker.DockerRedis.zip"
-        "Source URL": "https://github.com/openstack/murano-apps/tree/master/Docker/Applications/Redis/package"
+        "Source URL": "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Applications/Redis/package"
     -
       name: Docker Tomcat
       tags: ['app']
@@ -2621,6 +2772,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/k8s-docker-suite-app-murano/master/Applications/Tomcat/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Standalone Host
@@ -2629,7 +2785,7 @@
       hash: 1d7a3477d386ce1ffcad890a242c9237
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.example.docker.DockerTomcat.zip"
-        "Source URL": "https://github.com/openstack/murano-apps/tree/master/Docker/Applications/Tomcat/package"
+        "Source URL": "https://github.com/openstack/k8s-docker-suite-app-murano/tree/master/Applications/Tomcat/package"
     -
       name: Application Servers Bundle
       provided_by:
@@ -2776,12 +2932,19 @@
         deployment units. Kubernetes Pod also contains the Kubernetes
         Replication Controller, which can auto-replicate and redeploy a
         Pod with given contents in the event of Pod failure.
+
+        With this bundle automatically will be installed application -
+        "Kubernetes Cluster". It uses image with follow components:
+            * etcd v3.0.4;
+            * kubernetes v1.3.0;
+            * flannel v0.5.5;
+            * Go v1.6.2;
+            * confd v0.7.1;
+            * docker v1.11.2.
       service:
         type: bundle
         murano_package_name: docker-n-kubernetes
       release:
-        - Kilo
-        - Liberty
         - Mitaka
       license: Multi-licensed OpenSource
       depends:
@@ -2945,6 +3108,11 @@
       release:
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/ci-cd-pipeline-app-murano/master/murano-apps/Gerrit/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Puppet
@@ -2997,6 +3165,11 @@
       release:
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/ci-cd-pipeline-app-murano/master/murano-apps/Jenkins/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Puppet
@@ -3025,6 +3198,11 @@
       release:
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/ci-cd-pipeline-app-murano/master/murano-apps/OpenLDAP/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Puppet
@@ -3102,6 +3280,11 @@
       release:
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/ci-cd-pipeline-app-murano/master/murano-apps/CiCdEnvironment/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: OpenLDAP
@@ -3135,6 +3318,11 @@
       release:
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/ci-cd-pipeline-app-murano/master/murano-apps/Nodepool/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: SystemConfig
@@ -3530,6 +3718,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/ci-cd-pipeline-app-murano/master/Docker/Artifactory/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Standalone Host
@@ -3555,6 +3748,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/ci-cd-pipeline-app-murano/master/Docker/Elk/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Standalone Host
@@ -3582,6 +3780,11 @@
         - Kilo
         - Liberty
         - Mitaka
+      icon:
+        url: https://raw.githubusercontent.com/openstack/ci-cd-pipeline-app-murano/master/Docker/Nexus/package/logo.png
+        top: -10
+        left: -30
+        height: 180
       license: Multi-licensed OpenSource
       depends:
         - name: Docker Standalone Host
@@ -3612,7 +3815,7 @@
       license: Apache 2.0
       depends:
         - name: Ubuntu 14.04 x64 (pre-installed murano-agent)
-      hash: b992cc757b5f615806af083583742232
+      hash: bbb45a220c3f0a1e21b2e7fe77a4bc23
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.mirantis.GoCDApp.zip"
         "Source URL": "https://github.com/openstack/murano-apps/tree/master/GoCD/package"
