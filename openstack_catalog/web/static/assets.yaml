@@ -219,7 +219,7 @@
       attributes:
         url: http://pse-vm-images.s3-us-west-1.amazonaws.com/images/cloudbees-pse-ubuntu-juno-20151030011613.qcow2
     -
-      name: Ubuntu Trusty 14
+      name: Ubuntu Trusty 14.04.4
       tags: ['app']
       provided_by:
         name: Canonical
@@ -235,10 +235,11 @@
         top: 0
         left: 6
         height: 110
+      hash: 742ec3c3d8a6b4f8caa7f14569d58eef
       license: Multi-licensed OpenSource
       cloud_user: ubuntu
       attributes:
-        url: http://uec-images.ubuntu.com/trusty/current/trusty-server-cloudimg-amd64-disk1.img
+        url: https://cloud-images.ubuntu.com/releases/14.04/14.04.4/ubuntu-14.04-server-cloudimg-amd64-disk1.img
     -
       name: Ubuntu Utopic 14
       tags: ['app']
@@ -3508,7 +3509,7 @@
       license: Multi-licensed OpenSource
       depends:
         - name: BIND DNS server
-        - name: Ubuntu Trusty 14
+        - name: Ubuntu Trusty 14.04.4
       hash: 5e44511fe9d036d03b9950b0af3f69df
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.mirantis.clearwater.Clearwater.zip"
@@ -3544,7 +3545,7 @@
         - Mitaka
       license: Apache License, Version 2.0
       depends:
-        - name: Ubuntu Trusty 14
+        - name: Ubuntu Trusty 14.04.4
       hash: 97a7d12d6ab7219466332e1839c051ba
       attributes:
         "Package URL": "http://storage.apps.openstack.org/apps/com.mirantis.network.dns.Bind.zip"
