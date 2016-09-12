@@ -13,7 +13,7 @@
     if ($routeParams.visibility == "my") {
       vm.action = "edit";
       args.visibility = "private";
-      delete args['status'];
+      delete args.status;
       args.owner = $rootScope.auth_info.nickname;
     } else {
       vm.action = "artifacts";
@@ -27,11 +27,12 @@
     }
     args.sort = $location.search().sort;
     if (!args.sort) {
-        args.sort = "name:asc";
+      args.sort = "name:asc";
     }
     args.marker = $location.search().marker;
     if (args.marker) {
-      vm.first = UrlService.getUrl('#', ["list", vm.visibility, $routeParams.type], {sort: args.sort});
+      vm.first = UrlService.getUrl('#', ["list", vm.visibility, $routeParams.type],
+                                   {sort: args.sort});
     } else {
       vm.first = false;
     }

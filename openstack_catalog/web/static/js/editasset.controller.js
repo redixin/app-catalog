@@ -1,11 +1,13 @@
 (function() {
   'use strict';
-  var openstackReleases = ["Icehouse", "Juno", "Kilo", "Liberty", "Mitaka", "Newton", "Ocata", "Pike", "Queens"];
+  var openstackReleases = ["Icehouse", "Juno", "Kilo", "Liberty", "Mitaka", "Newton",
+                           "Ocata", "Pike", "Queens"];
   var hiddenFields = ["status", "providedBy", "visibility"];
   var orderedFields = ["name", "description", "license", "license_url", "icon",
                        "metadata", "tags", "provided_by", "supported_by", "version",
                        "depends", "release", "image"];
   var externalBlobFields = {images: ["image"]};
+  var customWidgets = {_all: {release: {widget: "multisel", options: openstackReleases}}};
   angular
     .module("AppCatalog")
     .controller("EditAssetController", EditAssetController);
@@ -85,10 +87,10 @@
           var url = UrlService.getApiUrl(["artifacts", vm.type, vm.id, blob.name], {});
         }
         var uploading = {progress: 0.0, name: blob.name};
-        if($scope.$$phase) {
+        if ($scope.$$phase) {
           vm.uploading.push(uploading);
         } else {
-          $scope.$apply(function (){
+          $scope.$apply(function () {
             vm.uploading.push(uploading);
           });
         }
@@ -105,10 +107,10 @@
         client.upload.onprogress = function(pe) {
           var new_progress = Math.ceil((pe.loaded / pe.total) * 100);
           if (new_progress != progress) {
-              progress = new_progress;
-              $scope.$apply(function() {
-                uploading.progress = progress;
-              });
+            progress = new_progress;
+            $scope.$apply(function() {
+              uploading.progress = progress;
+            });
           }
         };
         client.open("PUT", url, true);
@@ -122,7 +124,7 @@
     function Activate() {
       var url = UrlService.getApiUrl(["artifacts", vm.type, vm.id], {});
       var patch = [{op: "replace", path: "/status", value: "active"}];
-      $http.patch(url, patch).then(function(response){
+      $http.patch(url, patch).then(function(response) {
         vm.status = "Activated";
       }, function(response) {
         vm.error = response;
@@ -130,18 +132,18 @@
     }
     function GetFormFields() {
       $http.get(UrlService.getApiUrl(["schemas"], {}))
-      .then(function (response){
+      .then(function (response) {
         setFormFields(response.data.schemas);
       });
     }
     function setFormFields(schemas) {
       var formFields = [];
-      for (var i=0; i<orderedFields.length; i++) {
-        var field_name = orderedFields[i];
-        if (field_name in schemas[vm.type].properties) {
-          var field = getFieldWidget(field_name, schemas[vm.type].properties[field_name]);
-          field.name = field_name;
-          field.description = schemas[vm.type].properties[field_name].description;
+      for (var i = 0; i < orderedFields.length; i++) {
+        var fieldName = orderedFields[i];
+        if (fieldName in schemas[vm.type].properties) {
+          var field = getFieldWidget(fieldName, schemas[vm.type].properties[fieldName]);
+          field.name = fieldName;
+          field.description = schemas[vm.type].properties[fieldName].description;
           formFields.push(field);
         }
       }
@@ -158,23 +160,28 @@
       var fieldTypes = getFieldType(field);
       var fieldType = fieldTypes[0];
       var itemType = fieldTypes[1];
+      var customWidget = customWidgets._all[name];
+      if (customWidget !== undefined) {
+        return customWidget;
+      }
       switch (fieldType) {
         case 'string':
           if (field.hasOwnProperty('enum')) {
             return {widget: 'select', enum: field.enum};
           }
           if (field.maxLength > 255) {
-            return {widget: 'textarea'}
+            return {widget: 'textarea'};
           } else {
             return {widget: 'input', type: 'string'};
           }
+          break;
         case 'integer':
           return {widget: 'input', type: 'number'};
         case 'array':
           return {widget: 'array', type: itemType};
         case 'dict':
           var locked = field.additionalProperties === false;
-          if (locked && vm.artifact.id == null && itemType !== 'file') {
+          if (locked && vm.artifact.id === undefined && itemType !== 'file') {
             vm.artifact[name] = {};
             angular.forEach(field.properties, function(val, key) {
               vm.artifact[name][key] = "";
@@ -190,20 +197,22 @@
           } else {
             return {widget: 'uploaded_blob'};
           }
+          break;
         default:
-          return {unknown: field}
+          return {unknown: field};
       }
     }
     function getFieldType(field) {
       var type = (field.type.constructor === Array) ? field.type[0] : field.type;
       if (type == 'object') {
-        var t = field.properties;
-        if (t != null && t.checksum && t.content_type && t.size) {
+        var t = field.properties || null;
+        if (t !== null && t.checksum && t.content_type && t.size) {
           return ['file', null];
         } else {
           var type;
           if ('properties' in field) {
-            type = getFieldType(field.properties[Object.getOwnPropertyNames(field.properties)[0]])[0];
+            var _field = field.properties[Object.getOwnPropertyNames(field.properties)[0]];
+            type = getFieldType(_field)[0];
           } else {
             type = getFieldType(field.additionalProperties)[0];
           }
@@ -213,17 +222,17 @@
       return [type, null];
     }
     function addItem(field) {
-      if (vm.artifact[field] == null) {
+      if (!vm.artifact.hasOwnProperty(field)) {
         vm.artifact[field] = [];
       }
       vm.artifact[field].push("");
     }
     function addKey(field, vmKey, newDictName) {
       var newKey = vm[newDictName][field];
-      if (newKey == null || newKey == "") {
-        return;
-      }
-      if (vm[vmKey][field] == null) {
+      if (!vm[vmKey].hasOwnProperty(field)) {
+        if (newKey == "") {
+          return;
+        }
         vm[vmKey][field] = {};
       }
       if (vm[vmKey][field].hasOwnProperty(newKey)) {

@@ -43,6 +43,7 @@ RECENT_CACHE_TIME = 1200
 
 cache = memcache.Client([settings.MEMCACHED_SERVER])
 
+
 @api.route('/v2/')
 def index_v2():
     data = "db\n"
@@ -55,6 +56,7 @@ def copy_headers(requests_response, flask_response):
     for key, value in six.iteritems(requests_response.headers):
         if key not in HOP_BY_HOP_HEADERS:
             flask_response.headers[key] = value
+
 
 @api.route('/v2/db/recent')
 def recent():
@@ -76,6 +78,7 @@ def recent():
         response = json.dumps(assets[:5])
         cache.set(RECENT_CACHE_KEY, response, time=RECENT_CACHE_TIME)
     return Response(response, mimetype='application/json')
+
 
 @api.route('/v2/<path:path>', methods=['GET', 'HEAD', 'OPTIONS', 'POST',
                                        'PUT', 'UPDATE', 'DELETE', 'PATCH'])

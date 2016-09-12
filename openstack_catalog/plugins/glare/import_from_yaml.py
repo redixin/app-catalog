@@ -84,7 +84,8 @@ class AssetUploader(object):
                 "value": "active",
             }])
             if r.status_code != 200:
-                logging.error("Failed to activate %s (%s)", asset["id"], r.text)
+                logging.error("Failed to activate %s (%s)",
+                              asset["id"], r.text)
             r = self._patch(asset_type, asset["id"], [{
                 "op": "replace",
                 "path": "/visibility",
@@ -194,7 +195,8 @@ class AssetUploader(object):
             logging.debug(patch)
             r = self._patch(asset_type, asset["id"], patch)
             if r.status_code != 200:
-                raise Exception('Failed to set dependencies for %s (%s)', asset['id'], r.text)
+                raise Exception('Failed to set dependencies for %s (%s)',
+                                asset['id'], r.text)
 
     def _set_icon(self, asset):
         asset_type, asset = self._uploaded[asset["name"]]
@@ -214,8 +216,11 @@ class AssetUploader(object):
         asset["attributes"].pop("size", None)
         _get_keys(asset["service"], data,
                   "min_disk", "min_ram", "disk_format",
-                  "container_format", "image_indirect_url")
+                  "container_format")
         _get_keys(asset, data, "cloud_user")
+        image_indirect_url = asset["attributes"].pop("indirect_url", None)
+        if image_indirect_url:
+            data['image_indirect_url'] = image_indirect_url
         image_url = asset["attributes"].pop("url", None)
         image = self._create_asset("images", data)
         if image_url is None:
