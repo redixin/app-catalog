@@ -7,6 +7,7 @@
                        "metadata", "tags", "provided_by", "supported_by", "version",
                        "depends", "release", "image"];
   var externalBlobFields = {images: ["image"]};
+  var customWidgets = {_all: {release: {widget: "multisel", options: openstackReleases}}};
   angular
     .module("AppCatalog")
     .controller("EditAssetController", EditAssetController);
@@ -159,6 +160,10 @@
       var fieldTypes = getFieldType(field);
       var fieldType = fieldTypes[0];
       var itemType = fieldTypes[1];
+      var customWidget = customWidgets._all[name];
+      if (customWidget !== undefined) {
+        return customWidget;
+      }
       switch (fieldType) {
         case 'string':
           if (field.hasOwnProperty('enum')) {
