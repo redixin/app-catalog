@@ -5,9 +5,8 @@
   angular
     .module('AppCatalog')
     .controller('DisplayAssetController', DisplayAssetController);
-  DisplayAssetController.$inject = ['$http', '$routeParams', 'UrlService',
-                                    '$location', 'Api'];
-  function DisplayAssetController($http, $routeParams, UrlService, $location, Api) {
+  DisplayAssetController.$inject = ['$http', '$routeParams', '$location', 'Api'];
+  function DisplayAssetController($http, $routeParams, $location, Api) {
     var vm = this;
     var deps = [];
     var dependencies = [];
@@ -33,7 +32,7 @@
       if (deps.length > 0) {
         var dep = deps.pop();
         var bits = dep.split('/').slice(1);
-        var url = UrlService.getApiUrl(bits, {});
+        var url = Api.getApiUrl(bits, {});
         $http.get(url).then(function(response) {
           dependencies.push({name: response.data.name, type: bits[1], id: response.data.id});
         });
@@ -76,7 +75,7 @@
       }]);
     }
     function Patch(data) {
-      $http.patch(UrlService.getApiUrl(['artifacts', vm.type, vm.item.id], {}), data)
+      $http.patch(Api.getApiUrl(['artifacts', vm.type, vm.item.id], {}), data)
       .then(function(response) {
         location.reload();
       }, function(response) {

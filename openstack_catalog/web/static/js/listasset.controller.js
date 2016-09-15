@@ -3,8 +3,8 @@
   angular
     .module("AppCatalog")
     .controller("ListAssetsController", ListAssetsController);
-  ListAssetsController.$inject = ['$http', '$routeParams', '$location', '$rootScope', 'UrlService'];
-  function ListAssetsController($http, $routeParams, $location, $rootScope, UrlService) {
+  ListAssetsController.$inject = ['$http', '$routeParams', '$location', '$rootScope', 'Api'];
+  function ListAssetsController($http, $routeParams, $location, $rootScope, Api) {
     var vm = this;
     vm.type = $routeParams.type;
     vm.visibility = $routeParams.visibility;
@@ -31,16 +31,16 @@
     }
     args.marker = $location.search().marker;
     if (args.marker) {
-      vm.first = UrlService.getUrl('#', ["list", vm.visibility, $routeParams.type],
-                                   {sort: args.sort});
+      vm.first = Api.getUrl('#', ["list", vm.visibility, $routeParams.type],
+                            {sort: args.sort});
     } else {
       vm.first = false;
     }
-    $http.get(UrlService.getApiUrl(["artifacts", vm.type], args)).then(function(response) {
+    $http.get(Api.getApiUrl(["artifacts", vm.type], args)).then(function(response) {
       vm.data = response.data;
       if (response.data.next) {
         var marker = getUrlParams(response.data.next).marker;
-        vm.next = UrlService.getUrl('#', ['list', vm.visibility, vm.type],
+        vm.next = Api.getUrl('#', ['list', vm.visibility, vm.type],
         {sort: args.sort, marker: marker});
       } else {
         vm.next = false;

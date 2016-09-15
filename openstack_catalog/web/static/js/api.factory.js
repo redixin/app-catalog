@@ -13,6 +13,7 @@
       GetArtifact: GetArtifact,
       CreateArtifact: CreateArtifact,
       CreateBlob: CreateExternalBlob,
+      getUrl: getUrl,
       getApiUrl: getApiUrl
     };
     function CreateExternalBlob(type, id, name, data) {
@@ -88,6 +89,6 @@
     return url;
   }
   function getApiUrl(bits, args) {
-    return getUrl('/api/v2/db', bits, args);
+    return getUrl(GLARE_URL, bits, args);
   }
 })();
