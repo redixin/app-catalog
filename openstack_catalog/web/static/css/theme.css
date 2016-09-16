@@ -27,6 +27,7 @@ a {
     border-radius: 0;
     border: none;
 }
+.mirantis-brand {display: none;}
 .navbar-brand {
     width: 136px;
     height: 33px;
@@ -171,6 +172,9 @@ h1 {
 }
 .navbar-fixed-top {
     z-index: 2;
+}
+.navbar-fixed-top .btn {
+    border-radius: 0;
 }
 .dataTables_wrapper {
     z-index: 0;
@@ -354,4 +358,3 @@ form[name=artifactForm] .dict  {padding-bottom: 5px;}
     max-width: 280px;
     max-height: 280px;
 }
-

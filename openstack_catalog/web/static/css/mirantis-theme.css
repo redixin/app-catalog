@@ -1,0 +1,36 @@
+.mirantis-brand {
+  display: block;
+  float: left;
+  width: 136px;
+  height: 35px;
+  background: url(../images/mirantis-logo-small.png) no-repeat;
+  display: block;
+  padding: 0;
+  margin: 20px 0;
+}
+.navbar-inverse {
+    background: #313131;
+    border: none;
+    padding: 0;
+}
+.navbar-inverse .navbar-nav>li>a {
+    color: #fff;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 0;
+    margin-right: 10px;
+    font-family: 'PT Sans Narrow','Arial Narrow',arial,sans-serif;
+    text-transform: uppercase;
+}
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.open>a {
+    background: #6a6a6a;
+    box-shadow: none;
+    color: #fff;
+}
+.navbar-inverse .navbar-nav>li>a:focus {
+    color: #fff;
+}
+.navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+    background: #6a6a6a;
+    color: #fff;
+}
