@@ -85,7 +85,7 @@ def get_assets_from_glare():
 
 
 def _generate_artifacts(artifact_type):
-    url = settings.GLARE_URL + '/artifacts/' + artifact_type
+    url = settings.INTERNAL_GLARE_URL + '/artifacts/' + artifact_type
     while True:
         response = requests.get(url).json()
         for artifact in response[artifact_type]:
@@ -119,7 +119,7 @@ def _add_icon(src, dst, asset_type):
 
 
 def _blob_url(blob_type, blob_id, blob_name):
-    return '%s/artifacts/%s/%s/%s' % (settings.PUBLIC_GLARE_URL,
+    return '%s/artifacts/%s/%s/%s' % (settings.GLARE_URL,
                                       blob_type, blob_id, blob_name)
 
 
