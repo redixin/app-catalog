@@ -80,7 +80,9 @@
         $rootScope.auth_info = response.data;
         if ('launchpad_teams' in response.data) {
           $rootScope.logged_in = true;
-          $rootScope.is_admin = response.data.launchpad_teams.indexOf(GLARE_ADMIN_TEAM) >= 0;
+          $rootScope.is_admin = LAUNCHPAD_ADMIN_GROUPS.filter(function(group) {
+            return response.data.launchpad_teams.indexOf(group) >= 0;
+          }).length > 0;
         }
       });
       $http.defaults.headers.patch = {'Content-Type': 'application/json-patch+json'};
