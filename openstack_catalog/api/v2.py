@@ -65,7 +65,8 @@ def recent():
         assets = []
         for artifact_type in ('images', 'heat_templates',
                               'murano_packages'):
-            url = '%s/artifacts/%s' % (settings.GLARE_URL, artifact_type)
+            url = '%s/artifacts/%s' % (settings.INTERNAL_GLARE_URL,
+                                       artifact_type)
             url = '%s?sort=updated_at&version=latest' % url
             for asset in requests.get(url).json()[artifact_type][:5]:
                 assets.append({
@@ -85,7 +86,7 @@ def recent():
 def glare(path):
     if not path.startswith('db'):
         return Response("Not found", status=404, mimetype='text/plain')
-    url = settings.GLARE_URL + path[2:]
+    url = settings.INTERNAL_GLARE_URL + path[2:]
     query = "&".join(("%s=%s" % item) for item in request.args.items())
     if query:
         url += "?" + query

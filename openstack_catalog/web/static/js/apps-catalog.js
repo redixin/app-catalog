@@ -18,8 +18,7 @@
     };})
     .filter('blobLink', function() {
       return function(artifact, type, blobFieldName) {
-        return window.location.protocol + '//' + window.location.host + '/api/v2/db/artifacts/' +
-          type + '/' + artifact.id + '/' + blobFieldName;
+        return GLARE_URL + '/artifacts/' + type + '/' + artifact.id + '/' + blobFieldName;
       };
     })
     .filter('displayName', function() {
@@ -81,35 +80,9 @@
         $rootScope.auth_info = response.data;
         if ('launchpad_teams' in response.data) {
           $rootScope.logged_in = true;
-          //TODO(sskripnick): make this configurable
-          $rootScope.is_admin = response.data.launchpad_teams.indexOf('app-catalog-core') >= 0;
+          $rootScope.is_admin = response.data.launchpad_teams.indexOf(GLARE_ADMIN_TEAM) >= 0;
         }
       });
       $http.defaults.headers.patch = {'Content-Type': 'application/json-patch+json'};
-    })
-    .factory('UrlService', function() {
-      return {
-        getUrl: getUrl,
-        getApiUrl: getApiUrl
-      };
     });
-  function getUrl(start, bits, args) {
-    var url = start;
-    for (var i = 0; i < bits.length; i++) {
-      url += '/' + bits[i];
-    }
-    var query = [];
-    for (var arg in args) {
-      if ('undefined' !== typeof args[arg]) {
-        query.push(arg + '=' + args[arg]);
-      }
-    }
-    if (query) {
-      url += '?' + query.join('&');
-    }
-    return url;
-  }
-  function getApiUrl(bits, args) {
-    return getUrl('/api/v2/db', bits, args);
-  }
 })();

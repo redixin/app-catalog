@@ -11,7 +11,7 @@
           <div ng-repeat="i in vm.recent" class="col-md-2 col-sm-6">
             <div class="inner {{i.type.split('_')[0]}}">
               <a href="/#/artifacts/{{i.type}}/{{i.id}}">
-              <img src="/api/v2/db/artifacts/{{i.type}}/{{i.id}}/icon" style="height: 90px;" ng-if="i.icon"></img>
+              <img src="{{i|blobLink:i.type:'icon'}}" style="height: 90px;" ng-if="i.icon"></img>
               <img src="/static/images/openstack-icon.png" style="height: 90px;" ng-if="!i.icon"></img>
               <p>{{i.name}}</p>
               </a>

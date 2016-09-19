@@ -31,11 +31,11 @@
         });
     }
     function CreateArtifact(type, artifact) {
-      return $http.post('/api/v2/db/artifacts/' + type, artifact);
+      return $http.post(getApiUrl(['artifacts', type], {}), artifact);
     }
     function GetSchemas() {
       if (getSchemasPromise === null) {
-        getSchemasPromise = $http.get('/api/v2/db/schemas').then(function(response) {
+        getSchemasPromise = $http.get(getApiUrl(['schemas'], {})).then(function(response) {
           return response.data.schemas;
         });
       }

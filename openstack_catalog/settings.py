@@ -30,6 +30,10 @@ DOMAIN = "localhost.localdomain:8000"
 BASE_URL = "http://%s" % DOMAIN
 OPENID_RETURN_URL = BASE_URL + "/auth/process"
 
+GLARE_URL = 'http://localhost.localdomain:8000/api/v2/db'
+INTERNAL_GLARE_URL = 'http://localhost.localdomain:9494'
+GLARE_ADMIN_TEAM = 'app-catalog-core'
+
 SESSION_COOKIE_NAME = "s.aoo"
 SESSION_EXPIRES = 86400
 SESSION_SECURE = False
@@ -38,10 +42,6 @@ MEMCACHED_SERVER = "127.0.0.1:11211"
 LAUNCHPAD_API_URL = "https://api.launchpad.net/devel"
 LAUNCHPAD_LOGIN_URL = 'https://login.launchpad.net/'
 LAUNCHPAD_ADMIN_GROUPS = {'app-catalog-core', }
-
-GLARE_URL = 'http://127.0.0.1:9494'
-PUBLIC_GLARE_URL = 'http://localhost:9494'
-GLARE_TENANT = 'app-catalog'
 
 ASSETS_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__),
                               'web/static/assets.yaml'))

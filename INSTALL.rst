@@ -49,28 +49,48 @@ For example:
     [DEFAULT]
     default_api_limit = 100
     allow_anonymous_access = true
+
     [glance_store]
     default_store = file
     filesystem_store_datadir = /tmp/blobs
+
     [database]
     connection = sqlite:////tmp/glare.sqlite
-    [paste_deploy]
-    flavor = session
+
     [oslo_policy]
     policy_file = policy.json
 ..
 
-Edit etc/glare-paste.ini
+Create etc/glare-paste.ini
 
 .. code-block:: ini
 
-    [pipeline:glare-api-session]
-    pipeline = cors faultwrapper healthcheck versionnegotiation session context glarev1api
+    [pipeline:glare-api]
+    pipeline = cors faultwrapper versionnegotiation session context glarev1api
 
     [filter:session]
     paste.filter_factory = openstack_catalog.plugins.glare.middlewares:SessionMiddleware.factory
     memcached_server = 127.0.0.1:11211
     session_cookie_name = s.aoo
+    trusted_hosts = 127.0.0.1
+
+    [app:glarev1api]
+    paste.app_factory = glare.api.v1.router:API.factory
+
+    [filter:versionnegotiation]
+    paste.filter_factory = glare.api.middleware.version_negotiation:GlareVersionNegotiationFilter.factory
+
+    [filter:faultwrapper]
+    paste.filter_factory = glare.api.middleware.fault:GlareFaultWrapperFilter.factory
+
+    [filter:context]
+    paste.filter_factory = glare.api.middleware.context:ContextMiddleware.factory
+
+    [filter:cors]
+    use = egg:oslo.middleware#cors
+    oslo_config_project = glare
+    allowed_origin=http://localhost.localdomain:8000
+
 ..
 
 Create etc/policy.json:
@@ -111,9 +131,10 @@ Create local_setting.py file (if necessary)
 
 .. code-block:: python
 
-    DOMAIN = "example.com"
-    BASE_URL = "http://%s:8000" % DOMAIN
+    DOMAIN = "example.com:8000"
+    BASE_URL = "http://%s" % DOMAIN
     OPENID_RETURN_URL = BASE_URL + "/auth/process"
+    GLARE_URL = "glare.example.com:8000"
 ..
 
 Run app catalog
