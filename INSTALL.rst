@@ -57,6 +57,9 @@ For example:
     [database]
     connection = sqlite:////tmp/glare.sqlite
 
+    [paste_deploy]
+    flavor = catalog
+
     [oslo_policy]
     policy_file = policy.json
 ..
@@ -65,7 +68,7 @@ Create etc/glare-paste.ini
 
 .. code-block:: ini
 
-    [pipeline:glare-api]
+    [pipeline:glare-api-catalog]
     pipeline = cors faultwrapper versionnegotiation session context glarev1api
 
     [filter:session]
@@ -131,10 +134,11 @@ Create local_setting.py file (if necessary)
 
 .. code-block:: python
 
-    DOMAIN = "example.com:8000"
+    DOMAIN = "localhost.localdomain:8000"
     BASE_URL = "http://%s" % DOMAIN
     OPENID_RETURN_URL = BASE_URL + "/auth/process"
-    GLARE_URL = "glare.example.com:8000"
+    GLARE_URL = "localhost.localdomain:9494"
+    DEBUG = True
 ..
 
 Run app catalog
