@@ -29,9 +29,8 @@ from openstack_catalog.static_settings import get_staticfiles_dirs
 DOMAIN = "localhost.localdomain:8000"
 BASE_URL = "http://%s" % DOMAIN
 OPENID_RETURN_URL = BASE_URL + "/auth/process"
-
-GLARE_URL = 'http://localhost.localdomain:8000/api/v2/db'
-INTERNAL_GLARE_URL = 'http://localhost.localdomain:9494'
+GLARE_URL = 'http://localhost.localdomain:9494'
+DEBUG = True
 
 SESSION_COOKIE_NAME = "s.aoo"
 SESSION_EXPIRES = 86400
@@ -42,8 +41,6 @@ LAUNCHPAD_API_URL = "https://api.launchpad.net/devel"
 LAUNCHPAD_LOGIN_URL = 'https://login.launchpad.net/'
 LAUNCHPAD_ADMIN_GROUPS = ('app-catalog-core', )
 
-ASSETS_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                              'web/static/assets.yaml'))
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                            'web',
@@ -54,7 +51,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 SECRET_KEY = 'notused'
 
-DEBUG = True
 ALLOWED_HOSTS = []
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))

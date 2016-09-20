@@ -27,7 +27,7 @@
         return name.replace('_', ' ');
       };
     })
-    .config(function($routeProvider) {
+    .config(function($routeProvider, $httpProvider) {
       $routeProvider
       .when('/', {
         templateUrl: 'static/html/index.html',
@@ -62,6 +62,7 @@
       .otherwise({
         template: '<h1>404</h1>'
       });
+      $httpProvider.defaults.withCredentials = true;
     })
     .run(function($rootScope, $http) {
       $rootScope.$on('$locationChangeStart', function(event, next, current) {

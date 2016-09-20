@@ -100,6 +100,7 @@
       var progress = 0;
       vm.status = "Uploading " + blob.name;
       var client = new XMLHttpRequest();
+      client.withCredentials = true;
       client.onloadend = function(evt) {
         $scope.$apply(function() {
           uploading.error = evt.target.statusText;
