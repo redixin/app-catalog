@@ -15,13 +15,17 @@
 from flask import request
 from flask import Response
 import json
+import re
 import requests
 
 from openstack_catalog.api import api
 from openstack_catalog.api import cors_allow
-
 from openstack_catalog import settings
 
+
+MURANO_PATH_RE = re.compile(r'apps/(.+)\.zip')
+MURANO_URL_TEMPLATE = ('%s/artifacts/murano_packages?version=latest'
+                       '&status=active&release=in:%s&display_name=%s')
 
 @api.route('/v1')
 def v1_index():
@@ -49,9 +53,20 @@ def assets_index():
 
 @api.route('/v1/murano_repo/<release>/<path:path>')
 def murano_repo_index(release, path):
+    """Redirect to proper blob location.
+
+    path is apps/<package-name>.zip
+    """
+    match = MURANO_PATH_RE.match(path)
+    if match is None:
+        return Response('Not found', status=404)
+    url = MURANO_URL_TEMPLATE % (settings.GLARE_URL, release, match.group(1))
+    packages = requests.get(url).json()['murano_packages']
+    if not packages:
+        return Response('Not found', status=404)
     resp = Response('', status=302)
-    resp.headers['Location'] = \
-        "http://storage.apps.openstack.org/{}".format(path)
+    package = packages[0]
+    resp.headers['Location'] = settings.GLARE_URL + package['package']['url']
     return resp
 
 
