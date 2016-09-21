@@ -12,10 +12,6 @@
         return (bytes / Math.pow(1024, Math.floor(number))).toFixed(2) + units[number];
       };
     })
-    .filter('assetLink', function() {
-      return function(data) {
-      return '#/artifacts/' + data.type + '/' + data.id;
-    };})
     .filter('blobLink', function() {
       return function(artifact, type, blobFieldName) {
         return GLARE_URL + '/artifacts/' + type + '/' + artifact.id + '/' + blobFieldName;
