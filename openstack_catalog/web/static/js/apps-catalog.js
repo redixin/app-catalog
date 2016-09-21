@@ -66,6 +66,7 @@
     })
     .run(function($rootScope, $http) {
       $rootScope.$on('$locationChangeStart', function(event, next, current) {
+        $rootScope.error = false;
         var nav = document.getElementById('navbar').children;
         var type = next.split('/');
         type = type[type.length - 2];

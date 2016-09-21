@@ -5,8 +5,8 @@
   angular
     .module('AppCatalog')
     .factory('Api', Api);
-  Api.$inject = ['$http'];
-  function Api($http) {
+  Api.$inject = ['$http', '$rootScope'];
+  function Api($http, $rootScope) {
     return {
       GetSchemas: GetSchemas,
       GetFieldType: GetFieldType,
@@ -85,7 +85,7 @@
       } else {
         explanation = data.explanation || data;
       }
-      alert(explanation);
+      $rootScope.error = explanation;
     }
   }
   function getUrl(start, bits, args) {
