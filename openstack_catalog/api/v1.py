@@ -25,7 +25,7 @@ from openstack_catalog import settings
 
 MURANO_PATH_RE = re.compile(r'apps/(.+)\.zip')
 MURANO_URL_TEMPLATE = ('%s/artifacts/murano_packages?version=latest'
-                       '&status=active&release=in:%s&display_name=%s')
+                       '&status=active&release=in:%s&name=%s')
 
 @api.route('/v1')
 def v1_index():

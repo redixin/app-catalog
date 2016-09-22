@@ -118,7 +118,8 @@ class AssetUploader(object):
             logging.error(fmt, artifact_type, r.text)
             raise Exception("Failed to create '%s'" % data["name"])
         artifact = r.json()
-        self._uploaded[data["name"]] = (artifact_type, artifact)
+        key = data.get("display_name", data["name"])
+        self._uploaded[key] = (artifact_type, artifact)
         return artifact
 
     def _patch(self, artifact_type, asset_id, data):
@@ -244,14 +245,16 @@ class AssetUploader(object):
         self._create_blob("heat_templates", template["id"], "template", url)
 
     def _process_murano(self, asset, data):
-        url = asset["attributes"].pop("Package URL")
-        data["display_name"] = asset["service"]["package_name"]
+        data["display_name"] = asset["name"]
+        data["name"] = asset["service"]["package_name"]
         data["type"] = "Application"
         package = self._create_asset("murano_packages", data)
-        self._create_blob("murano_packages", package["id"], "package", url)
+        self._create_blob("murano_packages", package["id"], "package",
+                          asset["attributes"]["Package URL"])
 
     def _process_bundle(self, asset, data):
-        data["display_name"] = asset["service"]["murano_package_name"]
+        data["display_name"] = asset["name"]
+        data["name"] = asset["service"]["murano_package_name"]
         data["type"] = "Application"
         self._create_asset("murano_packages", data)
 
