@@ -1,5 +1,5 @@
  <div class="artifact">
-  <h2>{{vm.item.name}}</h2>
+  <h2>{{vm.type == "murano_packages" ? vm.item.display_name : vm.item.name}}</h2>
 
   <h2 style="background-color: red;" ng-if="vm.item.status == 'deactivated'">DEACTIVATED</h2>
 
@@ -22,8 +22,8 @@
   </div>
 
   <div ng-if="vm.type == 'murano_packages'" class="row">
-    <label class="col-xs-2">Package name:</label>
-    <div class="col-xs-7"><input type="text" readonly="readonly" value="{{vm.item.display_name}}" onfocus="this.select();" /></div>
+    <label class="col-xs-2">Package fqdn:</label>
+    <div class="col-xs-7"><input type="text" readonly="readonly" value="{{vm.item.name}}" onfocus="this.select();" /></div>
   </div>
 
   <div ng-if="vm.type == 'murano_packages'" class="row">
