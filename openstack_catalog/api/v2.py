@@ -39,8 +39,12 @@ def recent():
                                        artifact_type)
             url = '%s?sort=updated_at&version=latest' % url
             for asset in requests.get(url).json()[artifact_type][:5]:
+                if artifact_type == 'murano_packages':
+                    name = asset['display_name']
+                else:
+                    name = asset['name']
                 assets.append({
-                    'name': asset['name'],
+                    'name': name,
                     'type': artifact_type,
                     'id': asset['id'],
                     'icon': asset['icon'] is not None,
