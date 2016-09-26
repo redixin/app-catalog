@@ -84,8 +84,10 @@
 
   <h3 ng-if="vm.item.metadata">Metadata</h3>
   <div ng-repeat="(name, value) in vm.item.metadata" class="row">
-    <label class="col-xs-2">{{name}}:</label>
-    <div class="col-xs-10">{{value}}</div>
+    <span ng-if="name.indexOf('icon_') != 0">
+      <label class="col-xs-2">{{name}}:</label>
+      <div class="col-xs-10">{{value}}</div>
+    </span>
   </div>
 
   <div class="artifact-buttons">
