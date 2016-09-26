@@ -15,8 +15,8 @@
 
       <div ng-switch-when="uploaded_blob">
 
-        <div class="sub-label">checksum</div>
-        <div>{{vm.artifact[i.name].checksum}}</div>
+        <div class="sub-label">md5</div>
+        <div>{{vm.artifact[i.name].md5}}</div>
 
         <div ng-if="vm.artifact[i.name].external">
           <div class="sub-label">url</div>
@@ -37,9 +37,9 @@
             id="{{i.name}}{{i.key}}" class="form-control" />
         </div>
         <div class="col-xs-12">
-          <label for="{{i.name}}{{i.key}}.checksum" class="sub-label">Checksum</label>
-          <input name="{{i.name}}{{i.key}}.checksum" ng-model="vm.externalBlobChecksum[i.name]" 
-            id="{{i.name}}{{i.key}}.checksum" class="form-control" />
+          <label for="{{i.name}}{{i.key}}.md5" class="sub-label">Md5</label>
+          <input name="{{i.name}}{{i.key}}.md5" ng-model="vm.externalBlobMd5[i.name]"
+            id="{{i.name}}{{i.key}}.md5" class="form-control" />
         </div>
       </div>
 

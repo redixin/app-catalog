@@ -21,7 +21,7 @@
     vm.newKey = {};
     vm.newBlobDictKey = {};
     vm.externalBlob = {};
-    vm.externalBlobChecksum = {};
+    vm.externalBlobMd5 = {};
     vm.blobdict = {};
     vm.uploadErrors = [];
     vm.Activate = Activate;
@@ -43,10 +43,10 @@
       var key = Object.keys(vm.externalBlob)[0];
       if (key) {
         var url = vm.externalBlob[key];
-        var checksum = vm.externalBlobChecksum[key];
+        var md5 = vm.externalBlobMd5[key];
         delete vm.externalBlob[key];
-        delete vm.externalBlobChecksum[key];
-        Api.CreateExternalBlob(vm.type, vm.id, key, {url: url, checksum: checksum})
+        delete vm.externalBlobMd5[key];
+        Api.CreateExternalBlob(vm.type, vm.id, key, {url: url, md5: md5})
         .then(function(response) {
           createExternalBlobs();
         }, function(response) {
@@ -208,7 +208,7 @@
       var type = (field.type.constructor === Array) ? field.type[0] : field.type;
       if (type == 'object') {
         var t = field.properties || null;
-        if (t !== null && t.checksum && t.content_type && t.size) {
+        if (t !== null && t.md5 && t.content_type && t.size) {
           return ['file', null];
         } else {
           var type;

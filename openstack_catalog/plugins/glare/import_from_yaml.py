@@ -143,7 +143,7 @@ class AssetUploader(object):
         return r
 
     def _create_blob(self, asset_type, asset_id, blob_name, blob_url,
-                     external=False, checksum=None):
+                     external=False, md5=None):
         asset_url = self._get_url("artifacts", asset_type, asset_id, blob_name)
         headers = HEADERS_AUTH.copy()
         if not external:
@@ -154,7 +154,7 @@ class AssetUploader(object):
             headers["content-type"] = data.headers.get(
                 "content-type", "application/octet-stream")
         else:
-            data = json.dumps({"url": blob_url, "checksum": checksum})
+            data = json.dumps({"url": blob_url, "md5": md5})
             headers["content-type"] = ("application/vnd+openstack."
                                        "glare-custom-location+json")
 
@@ -226,11 +226,11 @@ class AssetUploader(object):
         image = self._create_asset("images", data)
         if image_url is None:
             return
-        checksum = asset.get("hash", "")
-        if len(checksum) != 32:
-            checksum = None
+        md5 = asset.get("hash", "")
+        if len(md5) != 32:
+            md5 = None
         self._create_blob("images", image["id"],
-                          "image", image_url, True, checksum)
+                          "image", image_url, True, md5)
 
     def _process_tosca(self, asset, data):
         url = asset["attributes"].pop("url")

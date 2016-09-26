@@ -59,7 +59,7 @@
       }
       if (type === 'object') {
         var t = field.properties || null;
-        if (t !== null && t.checksum && t.content_type && t.size) {
+        if (t !== null && t.md5 && t.content_type && t.size) {
           fieldType.type = 'blob';
         } else {
           fieldType.type = 'dict';
