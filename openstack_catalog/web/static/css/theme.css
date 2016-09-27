@@ -355,3 +355,6 @@ form[name=artifactForm] .dict  {padding-bottom: 5px;}
     max-height: 280px;
 }
 
+input.ng-invalid {
+    border: 1px solid red;
+}

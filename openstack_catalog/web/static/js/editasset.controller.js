@@ -135,52 +135,57 @@
     function GetFormFields() {
       Api.GetSchemas()
       .then(function (schemas) {
-        setFormFields(schemas);
+        vm.formFields = getFormFields(schemas);
       });
     }
-    function setFormFields(schemas) {
+    function getFormFields(schemas) {
       var formFields = [];
       for (var i = 0; i < orderedFields.length; i++) {
         var fieldName = orderedFields[i];
         if (fieldName in schemas[vm.type].properties) {
           var field = getFieldWidget(fieldName, schemas[vm.type].properties[fieldName]);
-          field.name = fieldName;
           field.description = schemas[vm.type].properties[fieldName].description;
+          field.required = schemas[vm.type].required.indexOf(fieldName) >= 0;
           formFields.push(field);
         }
       }
       angular.forEach(schemas[vm.type].properties, function(val, key) {
         if (!val.readOnly && hiddenFields.indexOf(key) < 0 && orderedFields.indexOf(key) < 0) {
           var field = getFieldWidget(key, val);
-          field.name = key;
           formFields.push(field);
         }
       });
-      vm.formFields = formFields;
+      return formFields;
     }
     function getFieldWidget(name, field) {
       var fieldTypes = getFieldType(field);
       var fieldType = fieldTypes[0];
       var itemType = fieldTypes[1];
       var customWidget = customWidgets._all[name];
+      var widget = {};
       if (customWidget !== undefined) {
-        return customWidget;
+        widget = customWidget;
       }
       switch (fieldType) {
         case 'string':
           if (field.hasOwnProperty('enum')) {
-            return {widget: 'select', enum: field.enum};
+            widget = {widget: 'select', enum: field.enum};
           }
           if (field.maxLength > 255) {
-            return {widget: 'textarea'};
+            widget = {widget: 'textarea'};
           } else {
-            return {widget: 'input', type: 'string'};
+            widget = {widget: 'input', type: 'string'};
           }
+          widget.maxlength = field.maxLength;
+          console.log(field);
+          console.log(widget);
           break;
         case 'integer':
-          return {widget: 'input', type: 'number'};
+          widget = {widget: 'input', type: 'number', min: field.minumum};
+          break;
         case 'array':
-          return {widget: 'array', type: itemType};
+          widget = {widget: 'array', type: itemType};
+          break;
         case 'dict':
           var locked = field.additionalProperties === false;
           if (locked && vm.artifact.id === undefined && itemType !== 'file') {
@@ -189,20 +194,23 @@
               vm.artifact[name][key] = "";
             });
           }
-          return {widget: 'dict', locked: locked, itemType: itemType};
+          widget = {widget: 'dict', locked: locked, itemType: itemType};
+          break;
         case 'file':
           if (!vm.artifact.hasOwnProperty(name) || vm.artifact[name] === null) {
             if (externalBlobFields[vm.type] && externalBlobFields[vm.type].indexOf(name) >= 0) {
-              return {widget: 'external_blob'};
+              widget = {widget: 'external_blob'};
             }
-            return {widget: 'input', type: 'file'};
+            widget = {widget: 'input', type: 'file'};
           } else {
-            return {widget: 'uploaded_blob'};
+            widget = {widget: 'uploaded_blob'};
           }
           break;
         default:
-          return {unknown: field};
+          widget = {unknown: field};
       }
+      widget.name = name;
+      return widget;
     }
     function getFieldType(field) {
       var type = (field.type.constructor === Array) ? field.type[0] : field.type;

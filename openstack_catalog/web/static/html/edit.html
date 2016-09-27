@@ -8,11 +8,12 @@
 
       <select ng-switch-when="select" name="{{i.name}}" ng-model="vm.artifact[i.name]" ng-options="o as o for o in i.enum"></select>
 
-      <select ng-switch-when="multisel" multiple="multiple" name="{{i.name}}" ng-model="vm.artifact[i.name]" ng-options="o as o for o in i.options"></select>
+      <select ng-switch-when="multisel" multiple="multiple" name="{{i.name}}" ng-model="vm.artifact[i.name]"
+              ng-options="o as o for o in i.options"></select>
 
       <input ng-switch-when="input" type="{{i.type}}" ng-model="vm.artifact[i.name]" name="{{i.name}}"
-        ng-required="i.required" ng-class="i.type == 'file' || 'form-control'"></input>
-
+             ng-required="i.required" ng-class="i.type == 'file' || 'form-control'" ng-min="{{i.min}}"
+             ng-maxlength="{{i.maxlength}}"></input>
       <div ng-switch-when="uploaded_blob">
 
         <div class="sub-label">md5</div>
