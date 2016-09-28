@@ -6,7 +6,7 @@ Install dependencies:
 
 .. code-block:: console
 
-    sudo apt-get install memcached python-dev libpq-dev libffi-dev python-pip python-dev libpq-dev
+    sudo apt-get install memcached python-dev libpq-dev libffi-dev python-pip
     sudo pip install --upgrade pip tox
     # create and activate venv
     virtualenv appcatalog --p python2.7
