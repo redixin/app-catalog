@@ -153,15 +153,15 @@ h1 {
     font-weight: 300;
     font-size: 28px;
 }
-.featured .glance {
+.featured .images {
     background: url(../images/featured-corner-glance.png) no-repeat;
     background-position: top right;
 }
-.featured .heat {
+.featured .heat_templates {
     background: url(../images/featured-corner-heat.png) no-repeat;
     background-position: top right;
 }
-.featured .murano {
+.featured .murano_packages {
     background: url(../images/featured-corner-murano.png) no-repeat;
     background-position: top right;
 }
