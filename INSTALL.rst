@@ -9,7 +9,7 @@ Install dependencies:
     sudo apt-get install memcached python-dev libpq-dev libffi-dev python-pip
     sudo pip install --upgrade pip tox
     # create and activate venv
-    virtualenv appcatalog --p python2.7
+    virtualenv appcatalog -p python2.7
     cd appcatalog
     . bin/activate
 ..
